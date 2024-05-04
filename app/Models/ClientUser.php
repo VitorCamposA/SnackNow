@@ -6,13 +6,10 @@ use App\Models\User;
 
 class ClientUser extends User
 {
-
+    protected $table = 'users';
     public $name;
     public $email;
     public $password;
-    public $typeOf;
-    public function __construct($name, $email, $password)
-    {
-        parent::__construct($name, $email, $password, 2);
-    }
+    public $type_of = 2;
+
 }

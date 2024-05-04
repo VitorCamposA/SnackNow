@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthClientController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthSupplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +17,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.home');
 });
+
+Route::controller(AuthController::class)->group(function() {
+    Route::get('/login', 'login')->name('login');
+    Route::post('/authenticate', 'authenticate')->name('authenticate');
+    Route::get('/dashboard', 'dashboard')->name('dashboard');
+    Route::post('/logout', 'logout')->name('logout');
+});
+
+Route::controller(AuthClientController::class)->group(function() {
+    Route::get('/client-registration', 'register')->name('register-client');
+    Route::post('/store-client', 'store')->name('store-client');
+});
+
+Route::controller(AuthSupplierController::class)->group(function() {
+    Route::get('/supplier-registration', 'register')->name('register-supplier');
+    Route::post('/store-supplier', 'store')->name('store-supplier');
+});
+

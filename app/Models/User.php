@@ -6,7 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
+use MongoDB\Driver\Session;
 
 class User extends Authenticatable
 {
@@ -44,12 +46,48 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function __construct($name, $email, $password, $typeOf)
+    public static function getCurrentUser()
     {
-        $this->name = $name;
-        $this->email = $email;
-        $this->password = $password;
-        $this->typeOf = $typeOf;
+        $myId = self::getCurrentUserClientId();
 
+        return User::find($myId);
+    }
+
+    public static function getCurrentUserClientId()
+    {
+        $clientId = User::getCurrentUserData('client_id');
+
+        return $clientId;
+    }
+
+    public static function getCurrentUserData($item)
+    {
+        if (!Session::has('user.' . $item)) {
+            User::getCurrentUserInstance()->setCurrentUserSessionData();
+        }
+
+        $userItem = Session::has('user.' . $item) ? Session::get('user.' . $item) : 'Error fetching this.';
+
+        return $userItem;
+    }
+
+    public static function getCurrentUserInstance()
+    {
+        return Auth::user();
+    }
+
+    public function setCurrentUserSessionData()
+    {
+        Session::remove('user');
+
+        Session::put('user.email', $this->email);
+        Session::put('user.name', $this->name);
+        Session::put('user.id', $this->id);
+        Session::put('user.type_of', $this->type_of);
+    }
+
+    public function getUserType()
+    {
+        return static::getCurrentUserData('type_of');
     }
 }

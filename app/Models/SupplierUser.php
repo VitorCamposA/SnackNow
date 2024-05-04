@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierUser extends User
 {
+
+    protected $table = 'users';
     public $name;
     public $email;
     public $password;
-    public $typeOf;
-    public function __construct($name, $email, $password)
-    {
-        parent::__construct($name, $email, $password, 1);
-    }
+    public $type_of = 1;
 }

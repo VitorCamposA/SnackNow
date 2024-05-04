@@ -2,77 +2,90 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClientUser;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function index()
+    /**
+     * Instantiate a new LoginRegisterController instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except([
+            'logout', 'dashboard'
+        ]);
+    }
+
+    /**
+     * Display a login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function login()
     {
         return view('auth.login');
     }
 
-    public function customLogin(Request $request)
+    /**
+     * Authenticate the user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function authenticate(Request $request)
     {
-        $validator =  $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-            'name'
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
 
-
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
-                ->withSuccess('Signed in');
+        if(Auth::attempt($credentials))
+        {
+            $request->session()->regenerate();
+            return redirect()->route('dashboard')
+                ->with('message', 'You have successfully logged in!');
         }
-        $validator['emailPassword'] = 'Email address or password is incorrect.';
-        return redirect("login")->withErrors($validator);
+
+        return back()->withErrors([
+            'email' => 'Your provided credentials do not match in our records.',
+        ])->onlyInput('email');
+
     }
 
-
-
-    public function registration()
-    {
-        return view('auth.registration');
-    }
-
-    public function customRegistration(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
-
-        $data = $request->all();
-        $check = $this->create($data);
-
-        return redirect("dashboard")->withSuccess('You have signed-in');
-    }
-
-
-    public function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
-        ]);
-    }
-
+    /**
+     * Display a dashboard to authenticated users.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function dashboard()
     {
-        if(Auth::check()){
-            return view('dashboard');
+        if(Auth::check())
+        {
+            return view('auth.home')->withSuccess('You have logged in successfully!');
         }
 
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect()->route('login')
+            ->withErrors([
+                'email' => 'Please login to access the dashboard.',
+            ])->onlyInput('email');
     }
 
-    public function signOut() {
-        Session::flush();
+    /**
+     * Log out the user from application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
         Auth::logout();
-
-        return Redirect('login');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login')
+            ->withSuccess('You have logged out successfully!');
     }
 }
