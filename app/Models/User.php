@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type_of',
     ];
 
     /**
@@ -42,4 +43,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function __construct($name, $email, $password, $typeOf)
+    {
+        $this->name = $name;
+        $this->email = $email;
+        $this->password = $password;
+        $this->typeOf = $typeOf;
+
+    }
 }
