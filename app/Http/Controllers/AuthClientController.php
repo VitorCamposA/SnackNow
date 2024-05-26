@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClientUser;
+use App\Models\SupplierUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -46,5 +47,12 @@ class AuthClientController extends AuthController
         $request->session()->regenerate();
         return redirect()->route('dashboard')
             ->withSuccess('You have successfully registered & logged in!');
+    }
+
+    public function show($id){
+
+       $supplier = SupplierUser::where('id', $id)->first();
+
+       return view('auth.client_show')->with(compact('supplier'));
     }
 }

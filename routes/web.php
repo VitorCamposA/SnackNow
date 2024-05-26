@@ -29,11 +29,13 @@ Route::controller(AuthController::class)->group(function() {
 
 Route::controller(AuthClientController::class)->group(function() {
     Route::get('/client-registration', 'register')->name('register-client');
+    Route::get('/client-show/{product}', 'show')->name('show-client');
     Route::post('/store-client', 'store')->name('store-client');
 });
 
 Route::controller(AuthSupplierController::class)->group(function() {
     Route::get('/supplier-registration', 'register')->name('register-supplier');
+    Route::get('/supplier-show', 'show')->name('show-supplier');
     Route::post('/store-supplier', 'store')->name('store-supplier');
 });
 

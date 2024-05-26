@@ -9,7 +9,7 @@
         <div class="cotainer">
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <div class="card">
+                    <div class="card text-white" style="background-color: #343A40">
                         <h3 class="card-header text-center">Supplier Register</h3>
                         <div class="card-body">
                     <form action="{{ route('store-supplier') }}" method="post">
