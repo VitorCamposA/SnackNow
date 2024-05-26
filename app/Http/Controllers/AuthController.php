@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClientUser;
+use App\Models\SupplierUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -87,5 +88,12 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('login')
             ->withSuccess('You have logged out successfully!');
+    }
+
+    public function show($id){
+
+        $supplier = SupplierUser::where('id', $id)->first();
+
+        return view('auth.client_show')->with(compact('supplier'));
     }
 }

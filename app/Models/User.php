@@ -90,4 +90,14 @@ class User extends Authenticatable
     {
         return static::getCurrentUserData('type_of');
     }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'user_id', 'favorite_user_id')->withTimestamps();
+    }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'favorite_user_id', 'user_id')->withTimestamps();
+    }
 }

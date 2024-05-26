@@ -42,5 +42,10 @@ class AuthSupplierController extends AuthController
     {
         return view('auth.login');
     }
+    public function show($id){
 
+        $supplier = SupplierUser::where('id', $id)->first();
+
+        return view('auth.client_show')->with(compact('supplier'));
+    }
 }

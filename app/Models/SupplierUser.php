@@ -13,4 +13,9 @@ class SupplierUser extends User
     public $email;
     public $password;
     public $type_of = 1;
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'favorite_user_id', 'user_id')->withTimestamps();
+    }
 }
