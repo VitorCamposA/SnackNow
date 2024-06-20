@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Hash;
 class AuthClientController extends AuthController
 {
 
+
+    public function __construct()
+    {
+        $this->middleware('guest')->except([
+            'dashboard', 'show'
+        ]);
+    }
+
     /**
      * Display a registration form.
      *
@@ -45,14 +53,27 @@ class AuthClientController extends AuthController
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
-        return redirect()->route('dashboard')
+        return redirect()->route('dashcli')
             ->withSuccess('You have successfully registered & logged in!');
+    }
+
+    public function dashboard()
+    {
+        if(Auth::check())
+        {
+            return view('auth.home')->withSuccess('You have logged in successfully!');
+        }
+
+        return redirect()->route('login')
+            ->withErrors([
+                'email' => 'Please login to access the dashboard.',
+            ])->onlyInput('email');
     }
 
     public function show($id){
 
-       $supplier = SupplierUser::where('id', $id)->first();
+        $supplier = SupplierUser::where('id', $id)->first();
 
-       return view('auth.client_show')->with(compact('supplier'));
+        return view('auth.client_show')->with(compact('supplier'));
     }
 }

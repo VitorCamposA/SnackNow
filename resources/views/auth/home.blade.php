@@ -32,7 +32,7 @@
         <div class="row">
             @foreach(\App\Models\SupplierUser::where('type_of', 1)->get() as $supplier)
                 <div class="col-md-6 mb-4">
-                    <a href="{{route('show-client', $supplier['id'])}}" class="text-decoration-none text-dark">
+                    <a href="{{route('show', $supplier['id'])}}" class="text-decoration-none text-dark">
                     <div class="card h-100" style="background-color: #343A40">
                         <div class="row no-gutters">
                             <div class="col-md-4">
@@ -64,7 +64,4 @@
             @endforeach
         </div>
     </main>
-    <script>
-
-    </script>
 @endsection

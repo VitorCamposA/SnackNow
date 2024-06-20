@@ -17,7 +17,7 @@
 <body>
 <nav class="navbar navbar-expand-lg" style="background-color: #FFB703">
     <div class="container">
-        <a class="navbar-brand text-dark" href="{{ URL('/') }}">SnackNow | </a>
+        <a class="navbar-brand text-dark" href="{{ route('home') }}">SnackNow | </a>
         <span class="nav-link text-secondary">{{Auth::user() ? Auth::user()->type_of == 2 ? "Client" : "Supplier" : 'Login or Register'}}</span>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -58,5 +58,10 @@
 
 @yield('content')
 
+<footer class="py-4 bg-dark text-white text-center">
+    <div class="container">
+        <p>&copy; 2024 Snack Now. All Rights Reserved.</p>
+    </div>
+</footer>
 </body>
 </html>

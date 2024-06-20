@@ -17,7 +17,7 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except([
-            'logout', 'dashboard'
+            'logout', 'show', 'dashboard'
         ]);
     }
 
@@ -46,33 +46,24 @@ class AuthController extends Controller
 
         if(Auth::attempt($credentials))
         {
-            $request->session()->regenerate();
-            return redirect()->route('dashboard')
-                ->with('message', 'You have successfully logged in!');
+
+            if (User::isSupplier()){
+                $request->session()->regenerate();
+                return redirect()->route('dashsup')
+                    ->with('message', 'You have successfully logged in!');
+            }
+
+            if (User::getUserType()){
+                $request->session()->regenerate();
+                return redirect()->route('dashcli')
+                    ->with('message', 'You have successfully logged in!');
+            }
         }
 
         return back()->withErrors([
             'email' => 'Your provided credentials do not match in our records.',
         ])->onlyInput('email');
 
-    }
-
-    /**
-     * Display a dashboard to authenticated users.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function dashboard()
-    {
-        if(Auth::check())
-        {
-            return view('auth.home')->withSuccess('You have logged in successfully!');
-        }
-
-        return redirect()->route('login')
-            ->withErrors([
-                'email' => 'Please login to access the dashboard.',
-            ])->onlyInput('email');
     }
 
     /**
@@ -90,10 +81,4 @@ class AuthController extends Controller
             ->withSuccess('You have logged out successfully!');
     }
 
-    public function show($id){
-
-        $supplier = SupplierUser::where('id', $id)->first();
-
-        return view('auth.client_show')->with(compact('supplier'));
-    }
 }

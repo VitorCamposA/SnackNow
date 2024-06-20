@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\SupplierUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthSupplierController extends AuthController
 {
+
+    public function __construct()
+    {
+        $this->middleware('guest')->except([
+            'dashboard'
+        ]);
+    }
 
     public function register()
     {
@@ -34,7 +42,7 @@ class AuthSupplierController extends AuthController
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
-        return redirect()->route('dashboard')
+        return redirect()->route('dashsup')
             ->withSuccess('You have successfully registered & logged in!');
     }
 
@@ -42,10 +50,19 @@ class AuthSupplierController extends AuthController
     {
         return view('auth.login');
     }
-    public function show($id){
 
-        $supplier = SupplierUser::where('id', $id)->first();
+    public function dashboard()
+    {
+        if(Auth::check())
+        {
+            $supplier = User::getCurrentUserInstance();
 
-        return view('auth.client_show')->with(compact('supplier'));
+            return view('auth.client_show')->withSuccess('You have logged in successfully!')->with(compact('supplier'));
+        }
+
+        return redirect()->route('login')
+            ->withErrors([
+                'email' => 'Please login to access the dashboard.',
+            ])->onlyInput('email');
     }
 }

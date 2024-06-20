@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
-use MongoDB\Driver\Session;
+use Illuminate\Support\Facades\Session;
 
 class User extends Authenticatable
 {
@@ -63,7 +63,7 @@ class User extends Authenticatable
     public static function getCurrentUserData($item)
     {
         if (!Session::has('user.' . $item)) {
-            User::getCurrentUserInstance()->setCurrentUserSessionData();
+            User::getCurrentUserInstance()?->setCurrentUserSessionData();
         }
 
         $userItem = Session::has('user.' . $item) ? Session::get('user.' . $item) : 'Error fetching this.';
@@ -86,9 +86,19 @@ class User extends Authenticatable
         Session::put('user.type_of', $this->type_of);
     }
 
-    public function getUserType()
+    public static function getUserType()
     {
         return static::getCurrentUserData('type_of');
+    }
+
+    public static function isSupplier()
+    {
+        return static::getUserType() == 1;
+    }
+
+    public static function isClient()
+    {
+        return static::getUserType() == 2;
     }
 
     public function favorites()
