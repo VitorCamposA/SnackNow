@@ -24,6 +24,9 @@ class User extends Authenticatable
         'email',
         'password',
         'type_of',
+        'address',
+        'phone',
+        'specialty',
     ];
 
     /**
@@ -109,5 +112,10 @@ class User extends Authenticatable
     public function favoritedBy()
     {
         return $this->belongsToMany(User::class, 'favorites', 'favorite_user_id', 'user_id')->withTimestamps();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

@@ -33,6 +33,51 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
+                            <label for="email" class="col-md-4 col-form-label text-md-end text-start">Phone</label>
+                            <div class="col-md-6">
+                                <input type="tel" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone') }}">
+                                @if ($errors->has('phone'))
+                                    <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const cellphoneInput = document.getElementById('phone');
+
+                                cellphoneInput.addEventListener('input', function(e) {
+                                    let input = e.target.value;
+                                    input = input.replace(/\D/g, ''); // Remove tudo que não é dígito
+
+                                    if (input.length > 0) {
+                                        input = `(${input.substring(0, 2)}) ${input.substring(2)}`;
+                                    }
+                                    if (input.length > 10) {
+                                        input = `${input.substring(0, 10)}-${input.substring(10, 14)}`;
+                                    }
+                                    e.target.value = input;
+                                });
+                            });
+                        </script>
+                        <div class="mb-3 row">
+                            <label for="email" class="col-md-4 col-form-label text-md-end text-start">Address</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="{{ old('address') }}">
+                                @if ($errors->has('address'))
+                                    <span class="text-danger">{{ $errors->first('address') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="email" class="col-md-4 col-form-label text-md-end text-start">Specialty</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control @error('specialty') is-invalid @enderror" id="specialty" name="specialty" value="{{ old('specialty') }}">
+                                @if ($errors->has('specialty'))
+                                    <span class="text-danger">{{ $errors->first('specialty') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
                             <label for="password" class="col-md-4 col-form-label text-md-end text-start">Password</label>
                             <div class="col-md-6">
                                 <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">

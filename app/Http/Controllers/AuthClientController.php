@@ -72,6 +72,8 @@ class AuthClientController extends AuthController
 
     public function show($id){
 
+        $id = decrypt($id);
+
         $supplier = SupplierUser::where('id', $id)->first();
 
         return view('auth.client_show')->with(compact('supplier'));

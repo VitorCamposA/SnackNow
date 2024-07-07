@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthClientController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthSupplierController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavoriteController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -53,4 +54,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashcli', [AuthClientController::class, 'dashboard'])->name('dashcli')->middleware('checkClient');
     Route::get('/dashsup', [AuthSupplierController::class, 'dashboard'])->name('dashsup')->middleware('checkSupplier');
     Route::get('/show/{product}', [AuthClientController::class, 'show'])->name('show')->middleware('checkClient');
+
+    Route::post('/show/{product}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('checkClient');
 });

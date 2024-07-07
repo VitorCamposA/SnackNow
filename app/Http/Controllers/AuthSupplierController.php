@@ -29,14 +29,20 @@ class AuthSupplierController extends AuthController
         $request->validate([
             'name' => 'required|string|max:250',
             'email' => 'required|email|max:250|unique:users',
-            'password' => 'required|min:8|confirmed'
+            'password' => 'required|min:8|confirmed',
+            'address' => 'required|min:8',
+            'phone' => 'required|min:8',
+            'specialty' => 'required|max:20',
         ]);
 
         SupplierUser::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'type_of' => 1
+            'type_of' => 1,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'specialty' => $request->specialty,
         ]);
 
         $credentials = $request->only('email', 'password');

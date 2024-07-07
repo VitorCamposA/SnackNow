@@ -32,7 +32,7 @@
         <div class="row">
             @foreach(\App\Models\SupplierUser::where('type_of', 1)->get() as $supplier)
                 <div class="col-md-6 mb-4">
-                    <a href="{{route('show', $supplier['id'])}}" class="text-decoration-none text-dark">
+                    <a href="{{route('show', encrypt($supplier['id']))}}" class="text-decoration-none text-dark">
                     <div class="card h-100" style="background-color: #343A40">
                         <div class="row no-gutters">
                             <div class="col-md-4">
@@ -54,7 +54,7 @@
                                             <button type="submit" class="btn btn-primary">Adicionar aos Favoritos</button>
                                         </form>
                                     @endif
-                                    <input hidden value="{{$supplier['id']}}">
+                                    <input hidden value="{{encrypt($supplier['id'])}}">
                                 </div>
                             </div>
                         </div>
