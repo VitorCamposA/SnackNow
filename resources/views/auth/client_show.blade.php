@@ -5,6 +5,16 @@
 @endsection
 
 @section('content')
+    <style>
+        .star-rating .fa {
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #ddd;
+        }
+        .star-rating .fa.checked {
+            color: #f39c12;
+        }
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
@@ -42,29 +52,66 @@
     <div class="container">
         <div class="row">
     @if(\App\Models\User::isClient())
-        <h2>Add a Comment</h2>
+        <h2 class="text-white">Comentários:</h2>
         <form action="{{ route('comments.store', $supplier['id']) }}" method="POST">
             @csrf
-            <div class="form-group">
-                <label for="author">{{\App\Models\User::getCurrentUserData('name')}}</label>
-                <input type="hidden" class="form-control" id="author" name="author" value="{{\App\Models\User::getCurrentUserData('name')}}">
+            <div class="card mb-3">
+            <div class="card-body bg-secondary">
+                <div class="form-group">
+                    <h3 for="author">Usuario: {{\App\Models\User::getCurrentUserData('name')}}</h3>
+                    <input type="hidden" class="form-control" id="author" name="author" value="{{\App\Models\User::getCurrentUserData('name')}}">
+                </div>
+                    <div class="form-group">
+                        <label for="rating">Nota:</label>
+                        <div class="star-rating">
+                            <span class="fa fa-star" data-rating="1"></span>
+                            <span class="fa fa-star" data-rating="2"></span>
+                            <span class="fa fa-star" data-rating="3"></span>
+                            <span class="fa fa-star" data-rating="4"></span>
+                            <span class="fa fa-star" data-rating="5"></span>
+                            <input type="hidden" name="rating" class="rating-value" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Comentario:</label>
+                        <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                    </div>
             </div>
-            <div class="form-group">
-                <label for="content">Comment:</label>
-                <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Comment</button>
+        </div>
+            <button type="submit" class="btn btn-primary">Adicionar comentário</button>
         </form>
     @endif
     <h2>Comments</h2>
     @foreach(\App\Models\Comment::where('user_id', $supplier['id'])->get() as $comment)
         <div class="card mb-3">
             <div class="card-body">
-                <h5 class="card-title">{{ $comment->author }}</h5>
+                <h5 class="card-title">{{ $comment->author }} ({{ str_repeat('★', $comment->rating) }}{{ str_repeat('☆', 5 - $comment->rating) }})</h5>
                 <p class="card-text">{{ $comment->content }}</p>
             </div>
         </div>
     @endforeach
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let stars = document.querySelectorAll('.star-rating .fa');
+            let ratingInput = document.querySelector('.rating-value');
+
+            stars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    ratingInput.value = index + 1;
+
+                    stars.forEach((s, i) => {
+                        if (i <= index) {
+                            s.classList.add('checked');
+                        } else {
+                            s.classList.remove('checked');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 @endsection

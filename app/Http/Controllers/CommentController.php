@@ -13,11 +13,12 @@ class CommentController extends Controller
         $request->validate([
             'author' => 'required|string|max:255',
             'content' => 'required|string',
+            'rating' => 'required|integer|min:0|max:5',
         ]);
 
         $restaurant = User::where('id', $restaurant)->firstOrFail();
 
-        $restaurant->comments()->create($request->only('author', 'content'));
+        $restaurant->comments()->create($request->only('author', 'content', 'rating'));
 
         return redirect()->route('show', encrypt($restaurant->id));
     }
