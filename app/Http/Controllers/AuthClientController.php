@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ClientUser;
 use App\Models\SupplierUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -57,11 +58,19 @@ class AuthClientController extends AuthController
             ->withSuccess('You have successfully registered & logged in!');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         if(Auth::check())
         {
-            return view('auth.home')->withSuccess('You have logged in successfully!');
+            $query = User::where('type_of', 1);
+
+            if ($request->has('specialty') && $request->specialty != '') {
+                $query->where('specialty', $request->specialty);
+            }
+
+            $suppliers = $query->get();
+
+            return view('auth.home', compact('suppliers'))->withSuccess('You have logged in successfully!');
         }
 
         return redirect()->route('login')

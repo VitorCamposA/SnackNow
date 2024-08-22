@@ -37,8 +37,32 @@
         </div>
     </div>
     <main class="container my-5">
+        <!-- Filter Form -->
+        <form method="GET" action="{{ route('dashcli') }}" class="mb-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <select class="form-control" name="specialty" id="specialty">
+                        <option value="">All Specialties</option>
+                        <option value="Fast Food" {{ request('specialty') == 'Fast Food' ? 'selected' : '' }}>Fast Food</option>
+                        <option value="Desserts" {{ request('specialty') == 'Desserts' ? 'selected' : '' }}>Desserts</option>
+                        <option value="Seafood" {{ request('specialty') == 'Seafood' ? 'selected' : '' }}>Seafood</option>
+                        <option value="Barbecue" {{ request('specialty') == 'Barbecue' ? 'selected' : '' }}>Barbecue</option>
+                        <option value="Brazilian" {{ request('specialty') == 'Brazilian' ? 'selected' : '' }}>Brazilian</option>
+                        <option value="Korean" {{ request('specialty') == 'Korean' ? 'selected' : '' }}>Korean</option>
+                        <option value="Mexican" {{ request('specialty') == 'Mexican' ? 'selected' : '' }}>Mexican</option>
+                        <option value="Italian" {{ request('specialty') == 'Italian' ? 'selected' : '' }}>Italian</option>
+                        <option value="Chinese" {{ request('specialty') == 'Chinese' ? 'selected' : '' }}>Chinese</option>
+                        <option value="Japanese" {{ request('specialty') == 'Japanese' ? 'selected' : '' }}>Japanese</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </div>
+        </form>
+
         <div class="row">
-            @foreach(\App\Models\User::where('type_of', 1)->get() as $supplier)
+            @foreach($suppliers as $supplier)
                 <div class="col-md-6 mb-4">
                     <a href="{{route('show', encrypt($supplier['id']))}}" class="text-decoration-none text-dark">
                         <div class="card h-100" style="background-color: #343A40">

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthClientController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthSupplierController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\FavoriteController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -56,4 +57,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/show/{product}', [AuthClientController::class, 'show'])->name('show')->middleware('checkClient');
 
     Route::post('/show/{product}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('checkClient');
+});
+
+Route::middleware(['auth', 'checkSupplier'])->group(function () {
+    Route::resource('coupons', CouponController::class);
 });

@@ -41,14 +41,20 @@
                             {{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu" style="background-color: #FFB703">
-                            <li><a class="dropdown-item text-dark " href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();"
-                                >Logout</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                            <li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
+                                <a class="dropdown-item text-dark" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
                             </li>
+                            @if(Auth::user() && Auth::user()->type_of == 1)
+                                <li class="nav-item">
+                                    <a class="dropdown-item text-dark nav-link" href="{{ route('coupons.index') }}">My Coupons</a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 @endguest

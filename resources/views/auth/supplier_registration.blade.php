@@ -69,9 +69,21 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="email" class="col-md-4 col-form-label text-md-end text-start">Specialty</label>
+                            <label for="specialty" class="col-md-4 col-form-label text-md-end text-start">Specialty</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control @error('specialty') is-invalid @enderror" id="specialty" name="specialty" value="{{ old('specialty') }}">
+                                <select class="form-control @error('specialty') is-invalid @enderror" id="specialty" name="specialty">
+                                    <option value=""></option>
+                                    <option value="Fast Food" {{ old('specialty') == 'Fast Food' ? 'selected' : '' }}>Fast Food</option>
+                                    <option value="Desserts" {{ old('specialty') == 'Desserts' ? 'selected' : '' }}>Desserts</option>
+                                    <option value="Seafood" {{ old('specialty') == 'Seafood' ? 'selected' : '' }}>Seafood</option>
+                                    <option value="Barbecue" {{ old('specialty') == 'Barbecue' ? 'selected' : '' }}>Barbecue</option>
+                                    <option value="Brazilian" {{ old('specialty') == 'Brazilian' ? 'selected' : '' }}>Brazilian</option>
+                                    <option value="Korean" {{ old('specialty') == 'Korean' ? 'selected' : '' }}>Korean</option>
+                                    <option value="Mexican" {{ old('specialty') == 'Mexican' ? 'selected' : '' }}>Mexican</option>
+                                    <option value="Italian" {{ old('specialty') == 'Italian' ? 'selected' : '' }}>Italian</option>
+                                    <option value="Chinese" {{ old('specialty') == 'Chinese' ? 'selected' : '' }}>Chinese</option>
+                                    <option value="Japanese" {{ old('specialty') == 'Japanese' ? 'selected' : '' }}>Japanese</option>
+                                </select>
                                 @if ($errors->has('specialty'))
                                     <span class="text-danger">{{ $errors->first('specialty') }}</span>
                                 @endif
