@@ -1,7 +1,7 @@
 @extends('layouts.primary')
 
 @section('content')
-    <div class="container">
+    <div class="text-white container">
         <h1>Edit Coupon</h1>
         <form method="POST" action="{{ route('coupons.update', $coupon->id) }}">
             @csrf
@@ -33,8 +33,8 @@
             </div>
 
             <div class="form-group">
-                <label for="usage_limit">Usage Limit</label>
-                <input type="number" name="usage_limit" class="form-control bg-dark text-light" value="{{ $coupon->usage_limit }}">
+                <label for="minimum_visits">Minimum Visits</label>
+                <input type="number" name="minimum_visits" class="form-control bg-dark text-light" value="{{ $coupon->minimum_visits }}">
             </div>
 
             <button type="submit" class="btn btn-primary">Update Coupon</button>

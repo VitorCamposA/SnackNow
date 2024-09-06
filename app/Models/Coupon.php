@@ -15,7 +15,7 @@ class Coupon extends Model
         'discount_percentage',
         'valid_from',
         'valid_until',
-        'usage_limit',
+        'minimum_visits',
         'used',
         'supplier_id',
     ];
@@ -23,5 +23,10 @@ class Coupon extends Model
     public function supplier()
     {
         return $this->belongsTo(User::class, 'supplier_id');
+    }
+
+    public function clients()
+    {
+        return $this->belongsToMany(User::class, 'coupons_clients');
     }
 }

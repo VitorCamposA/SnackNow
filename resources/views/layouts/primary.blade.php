@@ -50,11 +50,12 @@
                                     Logout
                                 </a>
                             </li>
-                            @if(Auth::user() && Auth::user()->type_of == 1)
                                 <li class="nav-item">
-                                    <a class="dropdown-item text-dark nav-link" href="{{ route('coupons.index') }}">My Coupons</a>
+                                    <a class="dropdown-item text-dark nav-link"
+                                       href="{{Auth::user() && Auth::user()->type_of == 1 ?
+                                        route('coupons.index') :
+                                         route('coupon.show', 9)}}">My Coupons</a>
                                 </li>
-                            @endif
                         </ul>
                     </li>
                 @endguest
@@ -62,6 +63,7 @@
         </div>
     </div>
 </nav>
+
 
 @yield('content')
 @yield('js')

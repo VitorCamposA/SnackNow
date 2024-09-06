@@ -118,4 +118,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
+
+    public function couponsReceived()
+    {
+        return $this->belongsToMany(Cupom::class, 'coupons_clients');
+    }
+
 }

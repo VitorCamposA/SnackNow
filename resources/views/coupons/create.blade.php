@@ -26,8 +26,8 @@
                 <input type="date" name="valid_until" class="form-control bg-dark text-light" required>
             </div>
             <div class="form-group">
-                <label for="usage_limit">Usage Limit</label>
-                <input type="number" name="usage_limit" class="form-control bg-dark text-light">
+                <label for="minimum_visits">Minimum Visits</label>
+                <input type="number" name="minimum_visits" class="form-control bg-dark text-light">
             </div>
             <button type="submit" class="btn btn-primary">Create Coupon</button>
         </form>

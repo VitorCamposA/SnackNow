@@ -9,6 +9,11 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <a href="{{ route('coupons.create') }}" class="btn btn-primary mb-3">Create New Coupon</a>
 
@@ -21,7 +26,6 @@
                 <th>Discount Percentage</th>
                 <th>Valid From</th>
                 <th>Valid Until</th>
-                <th>Usage Limit</th>
                 <th>Used</th>
                 <th>Actions</th>
             </tr>
@@ -34,7 +38,6 @@
                     <td>{{ $coupon->discount_percentage ? $coupon->discount_percentage . '%' : '-' }}</td>
                     <td>{{ \Carbon\Carbon::parse($coupon->valid_from)->format('d/m/y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($coupon->valid_until)->format('d/m/y') }}</td>
-                    <td>{{ $coupon->usage_limit ?? 'Unlimited' }}</td>
                     <td>{{ $coupon->used }}</td>
                     <td>
                         <!-- Edit Button -->
@@ -55,5 +58,39 @@
             @endforelse
             </tbody>
         </table>
+
+
+        @if($coupons->count() > 0)
+            <div class="text-white container">
+                <h1>Registrar Visita</h1>
+                <form method="POST" action="{{ route('visit.register', encrypt($coupons[0]?->supplier_id)) }}">
+                    @csrf
+                    @method('POST')
+
+                    <div class="form-group">
+                        <label for="email">Client Email:</label>
+                        <input type="email" name="email" required class="form-control bg-dark text-light">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+            <div class="text-white container">
+                <h1>Usar Cupom</h1>
+                <form method="POST" action="{{ route('coupon.use', encrypt($coupons[0]?->supplier_id)) }}">
+                    @csrf
+                    @method('POST')
+
+                    <div class="form-group">
+                        <label for="email">Client Email:</label>
+                        <input type="email" name="email" required class="form-control bg-dark text-light">
+                        <label for="code">Coupon Code:</label>
+                        <input type="text" name="code" required class="form-control bg-dark text-light">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+        @endif
     </div>
 @endsection

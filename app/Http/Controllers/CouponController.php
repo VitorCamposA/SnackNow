@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use App\Models\CouponClient;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +17,26 @@ class CouponController extends Controller
         return view('coupons.index', compact('coupons'));
     }
 
+    public function show()
+    {
+
+        $coupons = CouponClient::where('client_id', Auth::id())->get();
+
+        $couponsArray = [];
+        foreach ($coupons as $key =>$coupon) {
+            $couponSupplier = Coupon::where('id', $coupon->coupon_id)->first();
+            $supplier = User::where('id', $couponSupplier->supplier_id)->first();
+
+            $couponsArray[$key]['code'] = $couponSupplier->code;
+            $couponsArray[$key]['name'] = $supplier->name;
+            $couponsArray[$key]['used'] = $coupon->was_used;
+            $couponsArray[$key]['percentage'] = $couponSupplier->discount_percentage . '%';
+            $couponsArray[$key]['until'] = $couponSupplier->valid_until;
+        }
+
+        return view('coupons.show', compact('couponsArray'));
+    }
+
     public function create()
     {
         return view('coupons.create');
@@ -22,22 +44,24 @@ class CouponController extends Controller
 
     public function store(Request $request)
     {
+
+
         $request->validate([
-            'code' => 'required|unique:coupons',
+//            'code' => 'required|unique:coupons',
             'discount_amount' => 'required_without:discount_percentage|numeric',
             'discount_percentage' => 'required_without:discount_amount|numeric',
             'valid_from' => 'required|date',
             'valid_until' => 'required|date|after_or_equal:valid_from',
-            'usage_limit' => 'nullable|integer',
+            'minimum_visits' => 'required|integer',
         ]);
 
-        Coupon::create([
+        $coupon = Coupon::create([
             'code' => $request->code,
             'discount_amount' => $request->discount_amount,
             'discount_percentage' => $request->discount_percentage,
             'valid_from' => $request->valid_from,
             'valid_until' => $request->valid_until,
-            'usage_limit' => $request->usage_limit,
+            'minimum_visits' => $request->minimum_visits,
             'supplier_id' => Auth::id(),
         ]);
 
@@ -71,8 +95,6 @@ class CouponController extends Controller
 
     public function destroy(Coupon $coupon)
     {
-        $this->authorize('delete', $coupon);
-
         $coupon->delete();
 
         return redirect()->route('coupons.index')->with('success', 'Coupon deleted successfully!');
