@@ -14,7 +14,7 @@ class AuthSupplierController extends AuthController
     public function __construct()
     {
         $this->middleware('guest')->except([
-            'dashboard'
+            'dashboard', 'updateSchedule'
         ]);
     }
 
@@ -70,5 +70,38 @@ class AuthSupplierController extends AuthController
             ->withErrors([
                 'email' => 'Please login to access the dashboard.',
             ])->onlyInput('email');
+    }
+
+    public function updateSchedule(Request $request, $supplierId)
+    {
+        $supplier = User::findOrFail($supplierId);
+
+        // Store new schedules
+        foreach ($request->input('schedule') as $day => $time) {
+            $openClose = explode(' - ', $time);
+            $schedule = $supplier->schedules()->where('day', $day)->first();
+
+            if (count($openClose) == 2) {
+                if ($schedule) {
+                    // Update existing schedule
+                    $schedule->update([
+                        'open_time' => $openClose[0],
+                        'close_time' => $openClose[1],
+                    ]);
+                } else {
+                    // Create new schedule
+                    $supplier->schedules()->create([
+                        'day' => $day,
+                        'open_time' => $openClose[0],
+                        'close_time' => $openClose[1],
+                    ]);
+                }
+            } elseif ($schedule) {
+                // Delete existing schedule if no value provided
+                $schedule->delete();
+            }
+        }
+
+        return redirect()->back()->with('success', 'Schedule updated successfully.');
     }
 }

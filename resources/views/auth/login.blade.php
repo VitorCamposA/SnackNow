@@ -31,6 +31,10 @@
                                 @endif
                             </div>
                         </div>
+                        <p>
+                            Forgot your password?
+                            <a href="{{route('password.request')}}">Click here to reset it</a>.
+                        </p>
                         <div class="mb-3 row">
                             <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Login">
                         </div>

@@ -26,12 +26,15 @@ class CouponController extends Controller
         foreach ($coupons as $key =>$coupon) {
             $couponSupplier = Coupon::where('id', $coupon->coupon_id)->first();
             $supplier = User::where('id', $couponSupplier->supplier_id)->first();
-
-            $couponsArray[$key]['code'] = $couponSupplier->code;
-            $couponsArray[$key]['name'] = $supplier->name;
-            $couponsArray[$key]['used'] = $coupon->was_used;
-            $couponsArray[$key]['percentage'] = $couponSupplier->discount_percentage . '%';
-            $couponsArray[$key]['until'] = $couponSupplier->valid_until;
+            if (!$couponSupplier->was_used
+                && $couponSupplier->has_permission
+                && $couponSupplier->valid_from <= now()
+                && $couponSupplier->valid_until >= now()){
+                $couponsArray[$key]['code'] = $couponSupplier->code;
+                $couponsArray[$key]['name'] = $supplier->name;
+                $couponsArray[$key]['percentage'] = $couponSupplier->discount_percentage . '%';
+                $couponsArray[$key]['until'] = $couponSupplier->valid_until;
+            }
         }
 
         return view('coupons.show', compact('couponsArray'));
@@ -44,30 +47,26 @@ class CouponController extends Controller
 
     public function store(Request $request)
     {
-
-
         $request->validate([
-//            'code' => 'required|unique:coupons',
-            'discount_amount' => 'required_without:discount_percentage|numeric',
-            'discount_percentage' => 'required_without:discount_amount|numeric',
+            'code' => 'required|string|max:255',
+            'discount_amount' => 'nullable|numeric',
+            'discount_percentage' => 'nullable|numeric',
             'valid_from' => 'required|date',
-            'valid_until' => 'required|date|after_or_equal:valid_from',
-            'minimum_visits' => 'required|integer',
+            'valid_until' => 'required|date',
+            'minimum_visits' => 'nullable|integer|min:0',
         ]);
 
-        $coupon = Coupon::create([
+        Coupon::create([
             'code' => $request->code,
             'discount_amount' => $request->discount_amount,
             'discount_percentage' => $request->discount_percentage,
             'valid_from' => $request->valid_from,
             'valid_until' => $request->valid_until,
             'minimum_visits' => $request->minimum_visits,
-            'supplier_id' => Auth::id(),
         ]);
 
-        return redirect()->route('coupons.index')->with('success', 'Coupon created successfully!');
+        return redirect()->route('coupons.index')->with('success', 'Coupon created successfully.');
     }
-
     public function edit(Coupon $coupon)
     {
         // Ensure the coupon belongs to the authenticated supplier

@@ -34,10 +34,32 @@
 
             <div class="form-group">
                 <label for="minimum_visits">Minimum Visits</label>
-                <input type="number" name="minimum_visits" class="form-control bg-dark text-light" value="{{ $coupon->minimum_visits }}">
+                <div class="input-group">
+                    <input type="number" name="minimum_visits" id="minimum_visits" class="form-control bg-dark text-light" value="{{ $coupon->minimum_visits }}">
+                    <div class="input-group-append">
+                        <div class="input-group-text bg-dark text-light">
+                            <input type="checkbox" id="no_minimum_visits" {{ is_null($coupon->minimum_visits) ? 'checked' : '' }}>
+                            <label for="no_minimum_visits" class="mb-0 ml-2">No Minimum Visits</label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary">Update Coupon</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('no_minimum_visits').addEventListener('change', function() {
+            const minimumVisitsInput = document.getElementById('minimum_visits');
+            if (this.checked) {
+                minimumVisitsInput.value = '';
+                minimumVisitsInput.disabled = true;
+            } else {
+                minimumVisitsInput.disabled = false;
+            }
+        });
+
+        document.getElementById('no_minimum_visits').dispatchEvent(new Event('change'));
+    </script>
 @endsection

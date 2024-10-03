@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\AuthClientController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthSupplierController;
@@ -7,9 +9,10 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CouponClientController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\ScheduleController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +23,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 Route::get('/', function () {
 
@@ -62,6 +69,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('/supplier/{supplier}/schedule', [AuthSupplierController::class, 'updateSchedule'])->name('supplier.updateSchedule')->middleware('checkSupplier');
     Route::resource('coupons', CouponController::class);
     Route::post('register-visit/{id}', [CouponClientController::class, 'register'])->name('visit.register');
     Route::post('use-coupon/{id}', [CouponClientController::class, 'useCoupon'])->name('coupon.use');

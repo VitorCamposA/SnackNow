@@ -15,9 +15,6 @@
             </div>
         @endif
 
-        <a href="{{ route('coupons.create') }}" class="btn btn-primary mb-3">Create New Coupon</a>
-
-        <!-- Coupons Table -->
         <table class="table table-dark table-bordered table-striped">
             <thead>
             <tr>
@@ -29,16 +26,12 @@
             </thead>
             <tbody>
             @forelse($couponsArray as $coupon)
-
-
-                @if(!$coupon['used'])
                 <tr>
                     <td>{{ $coupon['code'] }}</td>
                     <td>{{ $coupon['name'] }}</td>
                     <td>{{ $coupon['percentage'] }}</td>
                     <td>{{ \Carbon\Carbon::parse($coupon['until'])->format('d/m/y') }}</td>
                 </tr>
-                @endif
             @empty
                 <tr>
                     <td colspan="8" class="text-center">No coupons found</td>

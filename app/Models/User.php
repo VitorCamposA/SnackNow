@@ -128,5 +128,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Cupom::class, 'coupons_clients');
     }
-
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }
