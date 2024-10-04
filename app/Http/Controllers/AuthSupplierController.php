@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SupplierUser;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -35,7 +36,7 @@ class AuthSupplierController extends AuthController
             'specialty' => 'required|max:20',
         ]);
 
-        SupplierUser::create([
+        $user = SupplierUser::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -44,6 +45,8 @@ class AuthSupplierController extends AuthController
             'phone' => $request->phone,
             'specialty' => $request->specialty,
         ]);
+
+        event(new Registered($user));
 
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);

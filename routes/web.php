@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AuthClientController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthSupplierController;
@@ -40,6 +41,10 @@ Route::get('/', function () {
     return view('landing');
 })->name('home');
 
+Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify')->middleware(['signed', 'auth']);
+Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend')->middleware('auth');
+
 Route::controller(AuthController::class)->group(function() {
     Route::get('/login', 'login')->name('login');
     Route::post('/authenticate', 'authenticate')->name('authenticate');
@@ -56,7 +61,7 @@ Route::controller(AuthSupplierController::class)->group(function() {
     Route::post('/store-supplier', 'store')->name('store-supplier');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('favorites/{id}/add', [FavoriteController::class, 'addFavorite'])->name('favorites.add');
     Route::post('favorites/{id}/remove', [FavoriteController::class, 'removeFavorite'])->name('favorites.remove');
 
@@ -68,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/coupon/show', [CouponController::class, 'show'])->name('coupon.show');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/supplier/{supplier}/schedule', [AuthSupplierController::class, 'updateSchedule'])->name('supplier.updateSchedule')->middleware('checkSupplier');
     Route::resource('coupons', CouponController::class);
     Route::post('register-visit/{id}', [CouponClientController::class, 'register'])->name('visit.register');

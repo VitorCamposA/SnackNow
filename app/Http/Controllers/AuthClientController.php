@@ -6,6 +6,7 @@ use App\Models\ClientUser;
 use App\Models\SupplierUser;
 use App\Models\User;
 use App\Notifications\SimpleNotification;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -45,12 +46,14 @@ class AuthClientController extends AuthController
             'password' => 'required|min:8|confirmed'
         ]);
 
-        ClientUser::create([
+        $user = ClientUser::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'type_of' => 2
         ]);
+
+        event(new Registered($user));
 
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
