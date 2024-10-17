@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthSupplierController extends AuthController
 {
@@ -15,7 +16,7 @@ class AuthSupplierController extends AuthController
     public function __construct()
     {
         $this->middleware('guest')->except([
-            'dashboard', 'updateSchedule'
+            'dashboard', 'updateSchedule', 'uploadImage'
         ]);
     }
 
@@ -106,5 +107,25 @@ class AuthSupplierController extends AuthController
         }
 
         return redirect()->back()->with('success', 'Schedule updated successfully.');
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        if ($user->profile_image) {
+            Storage::disk('public')->delete($user->profile_image);
+        }
+
+        $imagePath = $request->file('image')->store('profile_images', 'public');
+
+        $user->profile_image = $imagePath;
+        $user->save();
+
+        return back()->with('success', 'Imagem de perfil atualizada com sucesso!');
     }
 }

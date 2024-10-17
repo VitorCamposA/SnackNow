@@ -78,4 +78,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('coupons', CouponController::class);
     Route::post('register-visit/{id}', [CouponClientController::class, 'register'])->name('visit.register');
     Route::post('use-coupon/{id}', [CouponClientController::class, 'useCoupon'])->name('coupon.use');
+    Route::post('/supplier/upload', [AuthSupplierController::class, 'uploadImage'])->name('supplier.upload.image')->middleware('checkSupplier');
 });

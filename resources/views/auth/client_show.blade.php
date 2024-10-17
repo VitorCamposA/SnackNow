@@ -23,7 +23,21 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mt-4" style="background-color: #343A40">
-                        <img src="https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg" class="img-fluid" alt="Imagem do Restaurante">
+                        <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : "https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg"}}" class="img-fluid" alt="Imagem do Restaurante">
+                        @if($supplier->id == \Illuminate\Support\Facades\Auth::user()->id)
+                            <form action="{{ route('supplier.upload.image') }}" method="POST" enctype="multipart/form-data" style="display: inline-block;">
+                                @csrf
+                                <input type="file" name="image" id="imageInput" style="display: none;" required>
+
+                                <button type="button" class="btn btn-primary" onclick="document.getElementById('imageInput').click();">
+                                    <i class="fas fa-upload"></i> Escolher Imagem
+                                </button>
+
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Upload
+                                </button>
+                            </form>
+                        @endif
                         <div class="card-body text-white">
                             <h2>{{ $supplier['name'] }}</h2>
                             <br>
@@ -49,9 +63,11 @@
                             <p><strong>{{ $day }}:</strong> {{ isset($schedule) && $schedule ? $schedule->open_time . ' - ' . $schedule->close_time : 'Closed' }}</p>
                         @endforeach
                     </div>
+                    @if($supplier->id == \Illuminate\Support\Facades\Auth::user()->id)
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
                             <i class="fas fa-pencil-alt"></i> Edit
                         </button>
+                    @endif
                         <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
