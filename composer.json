@@ -45,6 +45,13 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "post-install-cmd": [
+            "php artisan key:generate",
+            "php artisan migrate --force",
+            "php artisan config:cache",
+            "php artisan route:cache",
+            "php artisan view:cache"
         ]
     },
     "extra": {
