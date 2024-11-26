@@ -14,7 +14,7 @@
                     <form action="{{ route('authenticate') }}" method="post">
                         @csrf
                         <div class="mb-3 row d-flex justify-content-center">
-                            <label for="email" class="col-md-4 col-form-label text-md-end text-start">Email Address</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end text-start">Email</label>
                             <div class="col-md-6">
                                 <input type="email" class="form-control @error('email') is-invalid @enderror w-50" id="email" name="email" value="{{ old('email') }}">
                                 @if ($errors->has('email'))
@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row d-flex justify-content-center">
-                            <label for="password" class="col-md-4 col-form-label text-md-end text-start">Password</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-end text-start">Senha</label>
                             <div class="col-md-6">
                                 <input type="password" class="form-control @error('password') is-invalid @enderror w-50" id="password" name="password">
                                 @if ($errors->has('password'))
@@ -32,8 +32,8 @@
                             </div>
                         </div>
                         <p class="text-center">
-                            Forgot your password?
-                            <a href="{{route('password.request')}}">Click here to reset it</a>.
+                            Esqueceu a senha?
+                            <a href="{{route('password.request')}}">Clique aqui para resetá-la</a>
                         </p>
                         <div class="mb-3 row">
                             <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Login">
