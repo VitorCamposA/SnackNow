@@ -64,19 +64,29 @@ class AuthClientController extends AuthController
 
     public function dashboard(Request $request)
     {
-        if(Auth::check())
-        {
-
+        if (Auth::check()) {
             Auth()->user()->notify(new SimpleNotification('OLA'));
-            $query = User::where('type_of', 1);
+
+            $user = Auth::user();
+
+            $query = User::where('type_of', 1)
+            ->with('favorites')
+            ->selectRaw('users.*, IF(favorites.user_id IS NOT NULL, 1, 0) as is_favorite')
+                ->leftJoin('favorites', function ($join) use ($user) {
+                    $join->on('users.id', '=', 'favorites.favorite_user_id')
+                    ->where('favorites.user_id', '=', $user->id);
+                });
 
             if ($request->has('specialty') && $request->specialty != '') {
                 $query->where('specialty', $request->specialty);
             }
 
-            $suppliers = $query->get();
+            $suppliers = $query->orderByDesc('is_favorite')
+                ->orderBy('name')
+                ->get();
 
-            return view('auth.home', compact('suppliers'))->withSuccess('You have logged in successfully!');
+            return view('auth.home', compact('suppliers'))
+                ->withSuccess('You have logged in successfully!');
         }
 
         return redirect()->route('login')
@@ -84,6 +94,7 @@ class AuthClientController extends AuthController
                 'email' => 'Please login to access the dashboard.',
             ])->onlyInput('email');
     }
+
 
     public function show($id){
 

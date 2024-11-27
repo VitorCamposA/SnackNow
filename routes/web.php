@@ -80,3 +80,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('use-coupon/{id}', [CouponClientController::class, 'useCoupon'])->name('coupon.use');
     Route::post('/supplier/upload', [AuthSupplierController::class, 'uploadImage'])->name('supplier.upload.image')->middleware('checkSupplier');
 });
+Route::prefix('menu')->group(function () {
+    Route::get('/{supplierId}', [MenuController::class, 'index'])->name('menu.index');
+    Route::post('/store', [MenuController::class, 'store'])->name('menu.store');
+    Route::post('/update/{categoryId}', [MenuController::class, 'update'])->name('menu.update');
+    Route::delete('/destroy/{categoryId}', [MenuController::class, 'destroy'])->name('menu.destroy');
+});

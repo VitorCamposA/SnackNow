@@ -1,7 +1,7 @@
 @extends('layouts.primary')
 
 @section('title')
-    Verify Your Email Address
+    Verifique seu E-Mail
 @endsection
 
 @section('content')

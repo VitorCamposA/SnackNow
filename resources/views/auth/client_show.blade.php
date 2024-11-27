@@ -107,46 +107,34 @@
                     </div>
                     <div class="card mt-4" style="background-color: #343A40">
                         <div class="card-body text-white d-grid gap-3" id="menu">
-                        <h2>Menu</h2>
-                        <a class="btn btn-primary col-2" data-toggle="modal" data-target="#addMenu">Adicionar o meu menu</a>
-
-
-                            <div class="modal fade" id="addMenu" tabindex="-1" role="dialog" aria-labelledby="addMenu" aria-hidden="true">
+                        <h2>Cardápio</h2>
+                        <a class="btn btn-primary col-2" data-toggle="modal" data-target="#addMenu">Adicionar Cardápio</a>
+                            <div class="modal fade" id="addMenu" tabindex="-1" role="dialog" aria-labelledby="addMenuLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <form action="{{ route('supplier.updateSchedule', $supplier->id) }}" method="POST">
+                                        <form action="{{ route('menu.store') }}" method="POST">
                                             @csrf
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="addMenuLabel">Adicionar Menu</h5>
+                                                <h5 class="modal-title" id="addMenuLabel">Adicionar Cardápio</h5>
                                             </div>
                                             <div class="modal-body">
-                                                @php
-                                                    $days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
-                                                @endphp
-                                                @foreach($days as $day)
-                                                    @php
-                                                        $schedule = \App\Models\Schedule::where('user_id', $supplier->id)
-                                                            ->where('day', $day)
-                                                            ->first();
-                                                    @endphp
-                                                    <div class="form-group">
-                                                        <label for="{{ strtolower($day) }}-time">{{ $day }}</label>
-                                                        <input type="text" class="form-control time-input" name="schedule[{{ $day }}]"
-                                                               id="{{ strtolower($day) }}-time"
-                                                               placeholder="HH:MM - HH:MM"
-                                                               value="{{ isset($schedule) && $schedule ? $schedule->open_time . ' - ' . $schedule->close_time : '' }}" maxlength="13">
-                                                    </div>
-                                                @endforeach
+                                                <div id="categoriesContainer">
+                                                </div>
+                                                <button type="button" class="btn btn-success mt-3 w-100" onclick="addCategory()">+ Adicionar Categoria</button>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                                <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                                                <button type="submit" class="btn btn-primary">Salvar Cardápio</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                           <!-- <p>Nosso menu inclui uma variedade de pratos deliciosos, desde entradas até sobremesas. Venha nos visitar para experimentar!</p> -->
+
+
+
+
+                            <!-- <p>Nosso menu inclui uma variedade de pratos deliciosos, desde entradas até sobremesas. Venha nos visitar para experimentar!</p> -->
                             <!-- <a href="#menu" class="btn btn-primary col-2">Ver Menu Completo</a>  -->
                         </div>
                     </div>
@@ -255,13 +243,59 @@
                             event.preventDefault();
                         }
 
-                        // Prevent input if the length exceeds the time format (13 characters max: "HH:MM - HH:MM")
                         if (value.length >= 13 && ['Backspace', 'Delete'].indexOf(key) === -1) {
                             event.preventDefault();
                         }
                     });
                 });
             });
-        </script>
+                let categoriaId = 0;
+
+                function addCategory() {
+                categoriaId++;
+                const categoriaHTML = `
+                    <div class="card mb-3" id="categoria-${categoriaId}">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <input type="text" class="form-control me-3" placeholder="Nome da Categoria" name="categorias[${categoriaId}][nome]" required>
+                            <button class="btn btn-danger btn-sm" onclick="removeCategory(${categoriaId})">Remover Categoria</button>
+                        </div>
+                        <div class="card-body">
+                            <div id="itens-container-${categoriaId}">
+                            </div>
+                            <button type="button" class="btn btn-primary mt-3 w-100" onclick="addItem(${categoriaId})">+ Adicionar Item</button>
+                        </div>
+                    </div>`;
+
+                document.getElementById('categoriesContainer').insertAdjacentHTML('beforeend', categoriaHTML);
+            }
+
+                function removeCategory(categoriaId) {
+                document.getElementById(`categoria-${categoriaId}`).remove();
+            }
+
+                function addItem(categoriaId) {
+                const itemContainer = document.getElementById(`itens-container-${categoriaId}`);
+                const itemId = `item-${Date.now()}`;
+                const itemHTML = `
+                    <div class="row mb-3 align-items-center" id="${itemId}">
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Nome do Item" name="categorias[${categoriaId}][itens][][nome]" required>
+                        </div>
+                        <div class="col-4">
+                            <input type="number" class="form-control" placeholder="Preço (R$)" name="categorias[${categoriaId}][itens][][preco]" required step="0.01">
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-danger" onclick="removeItem('${itemId}')">Remover</button>
+                        </div>
+                    </div>`;
+
+                itemContainer.insertAdjacentHTML('beforeend', itemHTML);
+            }
+
+                function removeItem(itemId) {
+                document.getElementById(itemId).remove();
+            }
+
+
         </script>
     @endsection
