@@ -10,6 +10,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CouponClientController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ScheduleController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -79,10 +80,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('register-visit/{id}', [CouponClientController::class, 'register'])->name('visit.register');
     Route::post('use-coupon/{id}', [CouponClientController::class, 'useCoupon'])->name('coupon.use');
     Route::post('/supplier/upload', [AuthSupplierController::class, 'uploadImage'])->name('supplier.upload.image')->middleware('checkSupplier');
-});
-Route::prefix('menu')->group(function () {
-    Route::get('/{supplierId}', [MenuController::class, 'index'])->name('menu.index');
-    Route::post('/store', [MenuController::class, 'store'])->name('menu.store');
-    Route::post('/update/{categoryId}', [MenuController::class, 'update'])->name('menu.update');
-    Route::delete('/destroy/{categoryId}', [MenuController::class, 'destroy'])->name('menu.destroy');
+    Route::get('/{supplierId}/menu', [MenuController::class, 'index'])->name('menu.index')->middleware('checkSupplier');
+    Route::post('/store-menu', [MenuController::class, 'store'])->name('menu.store')->middleware('checkSupplier');
+    Route::post('/update-menu/{categoryId}', [MenuController::class, 'update'])->name('menu.update')->middleware('checkSupplier');
+    Route::delete('/destroy-menu/{categoryId}', [MenuController::class, 'destroy'])->name('menu.destroy')->middleware('checkSupplier');
 });
