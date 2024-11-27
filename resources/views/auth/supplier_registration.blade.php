@@ -109,7 +109,7 @@
                                                 <option value=""></option>
                                                 <option value="Fast Food" {{ old('specialty') == 'Fast Food' ? 'selected' : '' }}>Fast Food</option>
                                                 <option value="Desserts" {{ old('specialty') == 'Desserts' ? 'selected' : '' }}>Desserts</option>
-                                                <option value="Seafood" {{ old('specialty') == 'Seafood' ? 'selected' : '' }}>Seafood</option>
+                                                <option value="Seafood" {{ old('specialty') == 'Seafood' ? 'selected' : '' }}>Comida Marítima</option>
                                                 <option value="Barbecue" {{ old('specialty') == 'Barbecue' ? 'selected' : '' }}>Barbecue</option>
                                                 <option value="Brazilian" {{ old('specialty') == 'Brazilian' ? 'selected' : '' }}>Comida Brasileira</option>
                                                 <option value="Korean" {{ old('specialty') == 'Korean' ? 'selected' : '' }}>Comida Coreana</option>

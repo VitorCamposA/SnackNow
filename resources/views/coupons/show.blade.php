@@ -1,8 +1,10 @@
 @extends('layouts.primary')
-
+@section('title')
+    Meus Cupons
+@endsection
 @section('content')
-    <div class="container">
-        <h1 class="mb-4">My Coupons</h1>
+    <div class="container" style="min-height: 84vh;">
+        <h1 class="mb-4">Meus cupons</h1>
 
         @if(session('success'))
             <div class="alert alert-success">
@@ -18,10 +20,10 @@
         <table class="table table-dark table-bordered table-striped">
             <thead>
             <tr>
-                <th>Coupon Code</th>
-                <th>Restaurant</th>
-                <th>Discount Percentage</th>
-                <th>Valid Until</th>
+                <th>Código do Cupom</th>
+                <th>Restaurante</th>
+                <th>Porcentagem do Desconto</th>
+                <th>Válido até</th>
             </tr>
             </thead>
             <tbody>
@@ -34,7 +36,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" class="text-center">No coupons found</td>
+                    <td colspan="8" class="text-center">Nenhum cupom encontrado</td>
                 </tr>
             @endforelse
             </tbody>

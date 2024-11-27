@@ -25,7 +25,7 @@
                     <div class="card mt-4" style="background-color: #343A40">
                         <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : "https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg"}}" class="img-fluid" alt="Imagem do Restaurante">
                         @if($supplier->id == \Illuminate\Support\Facades\Auth::user()->id)
-                            <form action="{{ route('supplier.upload.image') }}" method="POST" enctype="multipart/form-data" style="display: inline-block;">
+                            <form action="{{ route('supplier.upload.image') }}" method="POST" enctype="multipart/form-data" style="display: inline-block;" class="m-3 d-grid gap-3">
                                 @csrf
                                 <input type="file" name="image" id="imageInput" style="display: none;" required>
 
@@ -48,11 +48,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 my-4">
                     <div class="card-body text-white">
                         <h2>Horário de Funcionamento</h2>
                         @php
-                            $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                            $days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
                         @endphp
                         @foreach($days as $day)
                             @php
@@ -60,7 +60,7 @@
                                     ->where('day', $day)
                                     ->first();
                             @endphp
-                            <p><strong>{{ $day }}:</strong> {{ isset($schedule) && $schedule ? $schedule->open_time . ' - ' . $schedule->close_time : 'Closed' }}</p>
+                            <p><strong>{{ $day }}:</strong> {{ isset($schedule) && $schedule ? $schedule->open_time . ' - ' . $schedule->close_time : 'Fechado' }}</p>
                         @endforeach
                     </div>
                     @if($supplier->id == \Illuminate\Support\Facades\Auth::user()->id)
@@ -74,11 +74,11 @@
                                     <form action="{{ route('supplier.updateSchedule', $supplier->id) }}" method="POST">
                                         @csrf
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel">Edit Time Periods</h5>
+                                            <h5 class="modal-title" id="editModalLabel">Editar Período de Funcionamento</h5>
                                         </div>
                                         <div class="modal-body">
                                             @php
-                                                $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                                                $days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
                                             @endphp
                                             @foreach($days as $day)
                                                 @php

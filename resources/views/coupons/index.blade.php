@@ -15,13 +15,13 @@
             </div>
         @endif
 
-        <a href="{{ route('coupons.create') }}" class="btn btn-primary mb-3">Create New Coupon</a>
+        <a href="{{ route('coupons.create') }}" class="btn btn-primary mb-3">Criar novo cupom</a>
 
         <!-- Coupons Table -->
         <table class="table table-dark table-bordered table-striped">
             <thead>
             <tr>
-                <th>Coupon Code</th>
+                <th>Código</th>
                 <th>Discount Amount</th>
                 <th>Discount Percentage</th>
                 <th>Valid From</th>
