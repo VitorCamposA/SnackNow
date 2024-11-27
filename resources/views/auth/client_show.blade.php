@@ -112,7 +112,7 @@
                             <div class="modal fade" id="addMenu" tabindex="-1" role="dialog" aria-labelledby="addMenuLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <form action="{{ route('menu.store') }}" method="POST">
+                                        <form action="#" method="POST">
                                             @csrf
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="addMenuLabel">Adicionar Cardápio</h5>
