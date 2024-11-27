@@ -65,8 +65,6 @@ class AuthClientController extends AuthController
     public function dashboard(Request $request)
     {
         if (Auth::check()) {
-            Auth()->user()->notify(new SimpleNotification('OLA'));
-
             $user = Auth::user();
 
             $query = User::where('type_of', 1)
