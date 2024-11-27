@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mt-4" style="background-color: #343A40">
-                        <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : "https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg"}}" class="img-fluid" alt="Imagem do Restaurante">
+                        <img src="{{ $supplier->profile_image ? asset('storage/' . $supplier->profile_image) : "https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg"}}" class="img-fluid" alt="Imagem do Restaurante">
                         @if($supplier->id == \Illuminate\Support\Facades\Auth::user()->id)
                             <form action="{{ route('supplier.upload.image') }}" method="POST" enctype="multipart/form-data" style="display: inline-block;" class="m-3 d-grid gap-3">
                                 @csrf
@@ -65,7 +65,7 @@
                     </div>
                     @if($supplier->id == \Illuminate\Support\Facades\Auth::user()->id)
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
-                            <i class="fas fa-pencil-alt"></i> Edit
+                            <i class="fas fa-pencil-alt"></i> Editar
                         </button>
                     @endif
                         <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -96,8 +96,8 @@
                                             @endforeach
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                            <button type="submit" class="btn btn-primary">Salvar mudanças</button>
                                         </div>
                                     </form>
                                 </div>
@@ -106,10 +106,48 @@
                         </div>
                     </div>
                     <div class="card mt-4" style="background-color: #343A40">
-                        <div class="card-body text-white">
+                        <div class="card-body text-white d-grid gap-3" id="menu">
                         <h2>Menu</h2>
-                            <p>Nosso menu inclui uma variedade de pratos deliciosos, desde entradas até sobremesas. Venha nos visitar para experimentar!</p>
-                            <a href="#" class="btn btn-primary">Ver Menu Completo</a>
+                        <a class="btn btn-primary col-2" data-toggle="modal" data-target="#addMenu">Adicionar o meu menu</a>
+
+
+                            <div class="modal fade" id="addMenu" tabindex="-1" role="dialog" aria-labelledby="addMenu" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <form action="{{ route('supplier.updateSchedule', $supplier->id) }}" method="POST">
+                                            @csrf
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addMenuLabel">Adicionar Menu</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                @php
+                                                    $days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+                                                @endphp
+                                                @foreach($days as $day)
+                                                    @php
+                                                        $schedule = \App\Models\Schedule::where('user_id', $supplier->id)
+                                                            ->where('day', $day)
+                                                            ->first();
+                                                    @endphp
+                                                    <div class="form-group">
+                                                        <label for="{{ strtolower($day) }}-time">{{ $day }}</label>
+                                                        <input type="text" class="form-control time-input" name="schedule[{{ $day }}]"
+                                                               id="{{ strtolower($day) }}-time"
+                                                               placeholder="HH:MM - HH:MM"
+                                                               value="{{ isset($schedule) && $schedule ? $schedule->open_time . ' - ' . $schedule->close_time : '' }}" maxlength="13">
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                           <!-- <p>Nosso menu inclui uma variedade de pratos deliciosos, desde entradas até sobremesas. Venha nos visitar para experimentar!</p> -->
+                            <!-- <a href="#menu" class="btn btn-primary col-2">Ver Menu Completo</a>  -->
                         </div>
                     </div>
                 </div>

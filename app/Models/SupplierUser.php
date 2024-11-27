@@ -7,17 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplierUser extends User
 {
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'type_of',
-        'address',
-        'phone',
-        'specialty',
-    ];
-
     protected $table = 'users';
+    public $name;
+    public $email;
+    public $password;
+    public $type_of = 1;
+
+
 
     public function favoritedBy()
     {

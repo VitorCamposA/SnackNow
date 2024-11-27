@@ -108,7 +108,8 @@
                                             <select class="form-control @error('specialty') is-invalid @enderror" id="specialty" name="specialty">
                                                 <option value=""></option>
                                                 <option value="Fast Food" {{ old('specialty') == 'Fast Food' ? 'selected' : '' }}>Fast Food</option>
-                                                <option value="Desserts" {{ old('specialty') == 'Desserts' ? 'selected' : '' }}>Desserts</option>
+                                                <option value="Desserts" {{ old('specialty') == 'Desserts' ? 'selected' : '' }}>Sobremesa</option>
+                                                <option value="Pasta" {{ old('specialty') == 'Desserts' ? 'selected' : '' }}>Massa</option>
                                                 <option value="Seafood" {{ old('specialty') == 'Seafood' ? 'selected' : '' }}>Comida Marítima</option>
                                                 <option value="Barbecue" {{ old('specialty') == 'Barbecue' ? 'selected' : '' }}>Barbecue</option>
                                                 <option value="Brazilian" {{ old('specialty') == 'Brazilian' ? 'selected' : '' }}>Comida Brasileira</option>

@@ -1,8 +1,10 @@
 @extends('layouts.primary')
-
+@section('title')
+    Cupons
+@endsection
 @section('content')
     <div class="container">
-        <h1 class="mb-4">My Coupons</h1>
+        <h1 class="mb-4">Meus Cupons Criados</h1>
 
         @if(session('success'))
             <div class="alert alert-success">
@@ -22,12 +24,12 @@
             <thead>
             <tr>
                 <th>Código</th>
-                <th>Discount Amount</th>
-                <th>Discount Percentage</th>
-                <th>Valid From</th>
-                <th>Valid Until</th>
-                <th>Used</th>
-                <th>Actions</th>
+                <th>Valor Descontado</th>
+                <th>Porcentagem do Desconto</th>
+                <th>Válido a Partir De </th>
+                <th>Válido Até</th>
+                <th>Usado</th>
+                <th>Ações</th>
             </tr>
             </thead>
             <tbody>
@@ -47,13 +49,13 @@
                         <form action="{{ route('coupons.destroy', $coupon->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this coupon?');">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que quer deletar?');">Deletar</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8" class="text-center">No coupons found</td>
+                    <td colspan="8" class="text-center">Nenhum cupom criado</td>
                 </tr>
             @endforelse
             </tbody>

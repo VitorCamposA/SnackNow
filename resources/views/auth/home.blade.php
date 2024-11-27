@@ -24,19 +24,7 @@
         }
     </style>
     <div class="home" style="min-height: 79vh;">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-8">
-                @if (session()->has('message'))
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="alert alert-success">
-                                {{ session()->get('message') }}
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            </div>
-        </div>
+
         <main class="container my-5">
             <!-- Filter Form -->
             <form method="GET" action="{{ route('dashcli') }}" class="mb-4">
@@ -45,7 +33,8 @@
                         <select class="form-control" name="specialty" id="specialty">
                             <option value="">Todas Especialidades</option>
                             <option value="Fast Food" {{ old('specialty') == 'Fast Food' ? 'selected' : '' }}>Fast Food</option>
-                            <option value="Desserts" {{ old('specialty') == 'Desserts' ? 'selected' : '' }}>Desserts</option>
+                            <option value="Desserts" {{ old('specialty') == 'Desserts' ? 'selected' : '' }}>Sobremesa</option>
+                            <option value="Pasta" {{ old('specialty') == 'Desserts' ? 'selected' : '' }}>Massa</option>
                             <option value="Seafood" {{ old('specialty') == 'Seafood' ? 'selected' : '' }}>Comida Marítima</option>
                             <option value="Barbecue" {{ old('specialty') == 'Barbecue' ? 'selected' : '' }}>Barbecue</option>
                             <option value="Brazilian" {{ old('specialty') == 'Brazilian' ? 'selected' : '' }}>Comida Brasileira</option>
@@ -57,7 +46,7 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
                     </div>
                 </div>
             </form>
@@ -69,7 +58,7 @@
                             <div class="card h-100" style="background-color: #343A40">
                                 <div class="row no-gutters">
                                     <div class="col-md-4">
-                                        <img src="https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg" id="doido" class="card-img" alt="Imagem">
+                                        <img src="{{ $supplier->profile_image ? asset('storage/' . $supplier->profile_image) : "https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg"}}" id="doido" class="card-img" alt="Imagem">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body text-white">
@@ -113,6 +102,7 @@
                     </div>
                 @endforeach
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
+
 @endsection

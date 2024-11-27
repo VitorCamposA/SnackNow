@@ -65,6 +65,13 @@
             <a href="{{ route('register-client') }}" class="{{ request()->is('register-client') ? 'active' : '' }}">Registrar como Cliente</a>
             <a href="{{ route('register-supplier') }}" class="{{ request()->is('register-supplier') ? 'active' : '' }}">Registrar como Parceiro</a>
         @else
+            <a href="{{ Auth::user()->type_of == 1 ? route('coupons.index') : route('coupon.show', 9) }}" class="dropdown-item">
+                @if(Auth::user()->type_of ==1)
+                    Gerenciar Cupons
+                @else
+                    Meus Cupons
+                @endif
+            </a>
             <div class="dropdown">
                 <a href="#" class="dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::user()->name }}
@@ -77,9 +84,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
-                    <a href="{{ Auth::user()->type_of == 1 ? route('coupons.index') : route('coupon.show', 9) }}" class="dropdown-item">
-                        My Coupons
-                    </a>
+
                 </div>
             </div>
         @endguest

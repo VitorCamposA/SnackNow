@@ -2,42 +2,42 @@
 
 @section('content')
     <div class="container text-white">
-        <h1>Create Coupon</h1>
+        <h1>Criar Cupom</h1>
         <form method="POST" action="{{ route('coupons.store') }}">
             @csrf
             <div class="form-group">
-                <label for="code">Coupon Code</label>
+                <label for="code">Código do cupom</label>
                 <input type="text" name="code" class="form-control bg-dark text-light" required>
             </div>
             <div class="form-group">
-                <label for="discount_amount">Discount Amount</label>
+                <label for="discount_amount">Valor Descontado</label>
                 <input type="number" name="discount_amount" class="form-control bg-dark text-light">
             </div>
             <div class="form-group">
-                <label for="discount_percentage">Discount Percentage</label>
+                <label for="discount_percentage">Porcentagem do Desconto</label>
                 <input type="number" name="discount_percentage" class="form-control bg-dark text-light">
             </div>
             <div class="form-group">
-                <label for="valid_from">Valid From</label>
+                <label for="valid_from">Válido a Partir De</label>
                 <input type="date" name="valid_from" class="form-control bg-dark text-light" required>
             </div>
             <div class="form-group">
-                <label for="valid_until">Valid Until</label>
+                <label for="valid_until">Válido até</label>
                 <input type="date" name="valid_until" class="form-control bg-dark text-light" required>
             </div>
             <div class="form-group">
-                <label for="minimum_visits">Minimum Visits</label>
+                <label for="minimum_visits">Mínimo de Visitas</label>
                 <div class="input-group">
                     <input type="number" name="minimum_visits" id="minimum_visits" class="form-control bg-dark text-light">
                     <div class="input-group-append">
                         <div class="input-group-text bg-dark text-light">
                             <input type="checkbox" id="no_minimum_visits">
-                            <label for="no_minimum_visits" class="mb-0 ml-2">No Minimum Visits</label>
+                            <label for="no_minimum_visits" class="mb-0 ml-2">Sem mínimo de visitas</label>
                         </div>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Create Coupon</button>
+            <button type="submit" class="btn btn-primary my-3">Criar Cupom</button>
         </form>
     </div>
 
