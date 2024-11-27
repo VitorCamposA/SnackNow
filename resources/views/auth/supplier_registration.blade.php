@@ -229,14 +229,12 @@
            const addressInput = document.getElementById('address');
            const cepError = document.getElementById('cep-error');
 
-           // Máscara para CEP
            cepInput.addEventListener('input', function(e) {
                let value = e.target.value.replace(/\D/g, '');
                value = value.replace(/^(\d{5})(\d{1,3})/, '$1-$2');
                e.target.value = value;
            });
 
-           // Busca automática de endereço via ViaCEP
            cepInput.addEventListener('blur', function() {
                const cep = cepInput.value.replace(/\D/g, '');
                if (cep.length === 8) {

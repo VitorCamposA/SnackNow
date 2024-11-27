@@ -16,7 +16,7 @@ class AuthSupplierController extends AuthController
     public function __construct()
     {
         $this->middleware('guest')->except([
-            'dashboard', 'updateSchedule', 'uploadImage'
+            'dashboard', 'updateSchedule', 'uploadImage', 'edit', 'update'
         ]);
     }
 
@@ -132,5 +132,43 @@ class AuthSupplierController extends AuthController
         $user->save();
 
         return back()->with('success', 'Imagem de perfil atualizada com sucesso!');
+    }
+
+    public function edit()
+    {
+
+        $user = Auth::user();
+
+        return view('auth.edit_supplier')->with(compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . decrypt($id),
+            'phone' => 'required|string|max:15',
+            'cep' => 'required|string|max:9',
+            'address' => 'required|string|max:255',
+            'number' => 'required|string|max:10',
+            'complement' => 'nullable|string|max:255',
+            'specialty' => 'nullable|string',
+        ]);
+
+        $user = User::findOrFail(decrypt($id));
+
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->address = $request->input('address');
+        $user->phone = $request->input('phone');
+        $user->specialty = $request->input('specialty');
+        $user->cep = $request->input('cep');
+        $user->address_complement = $request->input('complement');
+        $user->address_number = $request->input('number');
+
+        $user->save();
+
+        return redirect()->route('dashsup')->with('success', 'Informações atualizadas com sucesso!');
     }
 }

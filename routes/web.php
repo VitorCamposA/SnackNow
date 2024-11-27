@@ -80,5 +80,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('register-visit/{id}', [CouponClientController::class, 'register'])->name('visit.register');
     Route::post('use-coupon/{id}', [CouponClientController::class, 'useCoupon'])->name('coupon.use');
     Route::post('/supplier/upload', [AuthSupplierController::class, 'uploadImage'])->name('supplier.upload.image')->middleware('checkSupplier');
+    Route::get('/edit-supplier', [AuthSupplierController::class, 'edit'])->name('edit-supplier')->middleware('checkSupplier');
+    Route::put('/update-supplier/{id}', [AuthSupplierController::class, 'update'])->name('update-supplier')->middleware('checkSupplier');
     Route::post('/store-menu', [MenuController::class, 'store'])->name('menu.store')->middleware('checkSupplier');
 });
