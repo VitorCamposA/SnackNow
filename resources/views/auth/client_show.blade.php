@@ -108,28 +108,92 @@
                     <div class="card mt-4" style="background-color: #343A40">
                         <div class="card-body text-white d-grid gap-3" id="menu">
                         <h2>Cardápio</h2>
-                        <a class="btn btn-primary col-2" data-toggle="modal" data-target="#addMenu">Adicionar Cardápio</a>
-                            <div class="modal fade" id="addMenu" tabindex="-1" role="dialog" aria-labelledby="addMenuLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <form action="{{route('menu.store')}}" method="POST">
-                                            @csrf
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="addMenuLabel">Adicionar Cardápio</h5>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div id="categoriesContainer">
+                        @if($supplier->id == \Illuminate\Support\Facades\Auth::user()->id)
+                                <a class="btn btn-primary col-2" data-toggle="modal" data-target="#addMenu">Adicionar/Editar Cardápio</a>
+
+                                <div class="modal fade" id="addMenu" tabindex="-1" role="dialog" aria-labelledby="addMenuLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <form action="{{ route('menu.store') }}" method="POST">
+                                                @csrf
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-dark" id="addMenuLabel">Adicionar/Editar Cardápio</h5>
+                                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <button type="button" class="btn btn-success mt-3 w-100" onclick="addCategory()">+ Adicionar Categoria</button>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                                <button type="submit" class="btn btn-primary">Salvar Cardápio</button>
-                                            </div>
-                                        </form>
+                                                <div class="modal-body">
+                                                    <div id="categoriesContainer">
+                                                        @if ($supplier->categories->isNotEmpty())
+                                                            @foreach ($supplier->categories as $categoryIndex => $category)
+                                                                <div class="card mb-3" id="categoria-{{ $categoryIndex }}">
+                                                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                                                        <input type="text" class="form-control me-3" placeholder="Nome da Categoria" name="categorias[{{ $categoryIndex }}][nome]" value="{{ $category->name }}" required>
+                                                                        <button class="btn btn-danger btn-sm" type="button" onclick="removeCategory({{ $categoryIndex }})">Remover Categoria</button>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div id="itens-container-{{ $categoryIndex }}">
+                                                                            @foreach ($category->items as $itemIndex => $item)
+                                                                                <div class="row mb-3 align-items-center" id="item-{{ $categoryIndex }}-{{ $itemIndex }}">
+                                                                                    <div class="col-6">
+                                                                                        <input type="text" class="form-control" placeholder="Nome do Item" name="categorias[{{ $categoryIndex }}][itens][{{ $itemIndex }}][nome]" value="{{ $item->name }}" required>
+                                                                                    </div>
+                                                                                    <div class="col-4">
+                                                                                        <input type="number" class="form-control" placeholder="Preço (R$)" name="categorias[{{ $categoryIndex }}][itens][{{ $itemIndex }}][preco]" value="{{ $item->price }}" required step="0.01">
+                                                                                    </div>
+                                                                                    <div class="col-2">
+                                                                                        <button class="btn btn-danger" type="button" onclick="removeItem('item-{{ $categoryIndex }}-{{ $itemIndex }}')">Remover</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endforeach
+                                                                        </div>
+                                                                        <button type="button" class="btn btn-primary mt-3 w-100" onclick="addItem({{ $categoryIndex }})">+ Adicionar Item</button>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
+
+                                                    <!-- Botão para adicionar uma nova categoria -->
+                                                    <button type="button" class="btn btn-success mt-3 w-100" onclick="addCategory()">+ Adicionar Categoria</button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                    <button type="submit" class="btn btn-primary">Salvar Cardápio</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
+                            @endif
+                            @if($supplier->categories->isNotEmpty())
+                                @foreach($supplier->categories as $category)
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <h3>{{ $category->name }}</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            @if($category->items->isNotEmpty())
+                                                <ul class="list-group">
+                                                    @foreach($category->items as $item)
+                                                        <li class="list-group-item">
+                                                            <strong>{{ $item->name }}</strong>
+                                                            <span class="float-end text-muted">
+                                            R$ {{ number_format($item->price, 2, ',', '.') }}
+                                        </span>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <p>Nenhum item disponível nesta categoria.</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <p>Nenhuma categoria encontrada para este fornecedor.</p>
+                            @endif
+
+
 
 
 
@@ -249,52 +313,52 @@
                     });
                 });
             });
-                let categoriaId = 0;
+            let categoriaId = {{ $supplier && $supplier->categories->count() ? $supplier->categories->count() : 0 }};
 
-                function addCategory() {
+            function addCategory() {
                 categoriaId++;
                 const categoriaHTML = `
-                    <div class="card mb-3" id="categoria-${categoriaId}">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <input type="text" class="form-control me-3" placeholder="Nome da Categoria" name="categorias[${categoriaId}][nome]" required>
-                            <button class="btn btn-danger btn-sm" onclick="removeCategory(${categoriaId})">Remover Categoria</button>
-                        </div>
-                        <div class="card-body">
-                            <div id="itens-container-${categoriaId}">
-                            </div>
-                            <button type="button" class="btn btn-primary mt-3 w-100" onclick="addItem(${categoriaId})">+ Adicionar Item</button>
-                        </div>
-                    </div>`;
+        <div class="card mb-3" id="categoria-${categoriaId}">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <input type="text" class="form-control me-3" placeholder="Nome da Categoria" name="categorias[${categoriaId}][nome]" required>
+                <button class="btn btn-danger btn-sm" type="button" onclick="removeCategory(${categoriaId})">Remover Categoria</button>
+            </div>
+            <div class="card-body">
+                <div id="itens-container-${categoriaId}"></div>
+                <button type="button" class="btn btn-primary mt-3 w-100" onclick="addItem(${categoriaId})">+ Adicionar Item</button>
+            </div>
+        </div>`;
 
                 document.getElementById('categoriesContainer').insertAdjacentHTML('beforeend', categoriaHTML);
             }
 
-                function removeCategory(categoriaId) {
+            function removeCategory(categoriaId) {
                 document.getElementById(`categoria-${categoriaId}`).remove();
             }
 
-                function addItem(categoriaId) {
+            function addItem(categoriaId) {
                 const itemContainer = document.getElementById(`itens-container-${categoriaId}`);
                 const itemId = `item-${Date.now()}`;
                 const itemHTML = `
-                    <div class="row mb-3 align-items-center" id="${itemId}">
-                        <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Nome do Item" name="categorias[${categoriaId}][itens][][nome]" required>
-                        </div>
-                        <div class="col-4">
-                            <input type="number" class="form-control" placeholder="Preço (R$)" name="categorias[${categoriaId}][itens][][preco]" required step="0.01">
-                        </div>
-                        <div class="col-2">
-                            <button class="btn btn-danger" onclick="removeItem('${itemId}')">Remover</button>
-                        </div>
-                    </div>`;
+        <div class="row mb-3 align-items-center" id="${itemId}">
+            <div class="col-6">
+                <input type="text" class="form-control" placeholder="Nome do Item" name="categorias[${categoriaId}][itens][${itemId}][nome]" required>
+            </div>
+            <div class="col-4">
+                <input type="number" class="form-control" placeholder="Preço (R$)" name="categorias[${categoriaId}][itens][${itemId}][preco]" required step="0.01">
+            </div>
+            <div class="col-2">
+                <button class="btn btn-danger" type="button" onclick="removeItem('${itemId}')">Remover</button>
+            </div>
+        </div>`;
 
                 itemContainer.insertAdjacentHTML('beforeend', itemHTML);
             }
 
-                function removeItem(itemId) {
+            function removeItem(itemId) {
                 document.getElementById(itemId).remove();
             }
+
 
 
         </script>

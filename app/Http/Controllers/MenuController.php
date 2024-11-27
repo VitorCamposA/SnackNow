@@ -31,18 +31,22 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $categories = $request->input('categories', []);
+        Category::where('supplier_id', auth()->id())->each(function ($category) {
+            $category->items()->delete();
+            $category->delete();
+        });
 
+        $categories = $request->input('categorias', []);
         foreach ($categories as $categoryData) {
             $category = Category::create([
-                'name' => $categoryData['name'],
-                'supplier_id' => auth()->id(), // Associa ao fornecedor autenticado
+                'name' => $categoryData['nome'],
+                'supplier_id' => auth()->id(),
             ]);
 
-            foreach ($categoryData['items'] ?? [] as $itemData) {
+            foreach ($categoryData['itens'] ?? [] as $itemData) {
                 $category->items()->create([
-                    'name' => $itemData['name'],
-                    'price' => $itemData['price'],
+                    'name' => $itemData['nome'],
+                    'price' => $itemData['preco'],
                 ]);
             }
         }
@@ -50,35 +54,6 @@ class MenuController extends Controller
         return redirect()->back()->with('success', 'Cardápio salvo com sucesso!');
     }
 
-    /**
-     * Atualiza uma categoria ou item no cardápio.
-     *
-     * @param Request $request
-     * @param int $categoryId
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Request $request, $categoryId)
-    {
-        $category = Category::findOrFail($categoryId);
-        $category->update(['name' => $request->input('name')]);
-
-        foreach ($request->input('items', []) as $itemData) {
-            if (isset($itemData['id'])) {
-                $item = MenuItem::findOrFail($itemData['id']);
-                $item->update([
-                    'name' => $itemData['name'],
-                    'price' => $itemData['price'],
-                ]);
-            } else {
-                $category->items()->create([
-                    'name' => $itemData['name'],
-                    'price' => $itemData['price'],
-                ]);
-            }
-        }
-
-        return redirect()->back()->with('success', 'Categoria atualizada com sucesso!');
-    }
 
     /**
      * Exclui uma categoria ou item do cardápio.
