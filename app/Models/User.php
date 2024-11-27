@@ -132,4 +132,23 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Schedule::class);
     }
+
+    function getSpecialtyForHumansAttribute() {
+
+        $array = [
+            "Fast Food" => "Fast Food",
+            "Desserts" => "Sobremesa",
+            "Pasta" => "Massa",
+            "Seafood" => "Comida Marítima",
+            "Barbecue" => "Barbecue",
+            "Brazilian" => "Comida Brasileira",
+            "Korean" => "Comida Coreana",
+            "Mexican" => "Comida Mexicana",
+            "Italian" => "Comida Italiana",
+            "Chinese" => "Comida Chinesa",
+            "Japanese" => "Comida Japonesa"
+        ];
+
+        return $array[$this->specialty] ?? "Opção desconhecida";
+    }
 }

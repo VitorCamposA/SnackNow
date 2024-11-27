@@ -35,6 +35,8 @@ class AuthSupplierController extends AuthController
             'address' => 'required|min:8',
             'phone' => 'required|min:8',
             'specialty' => 'required|max:20',
+            'cep' => 'required|min:8',
+            'number' => 'required|min:1',
         ]);
 
         $user = SupplierUser::create([
@@ -45,6 +47,9 @@ class AuthSupplierController extends AuthController
             'address' => $request->address,
             'phone' => $request->phone,
             'specialty' => $request->specialty,
+            'cep' => $request->cep,
+            'address_complement' => $request->complement ?? null,
+            'address_number' => $request->number,
         ]);
 
         event(new Registered($user));

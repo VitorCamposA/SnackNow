@@ -39,12 +39,12 @@
                             </form>
                         @endif
                         <div class="card-body text-white">
-                            <h2>{{ $supplier['name'] }}</h2>
+                            <h2>{{ $supplier->name }}</h2>
                             <br>
-                            <p><strong>Endereço: </strong>{{ $supplier['address'] }}</p>
-                            <p><strong>Telefone: </strong> {{ $supplier['phone'] }}</p>
-                            <p><strong>Email:</strong>  {{ $supplier['email'] }}</p>
-                            <p><strong>Especialidade:</strong>  {{ $supplier['specialty'] }}</p>
+                            <p><strong>Endereço: </strong>{{ $supplier->address }}</p>
+                            <p><strong>Telefone: </strong> {{ $supplier->phone }}</p>
+                            <p><strong>Email:</strong>  {{ $supplier->email }}</p>
+                            <p><strong>Especialidade:</strong>  {{ $supplier->specialty_for_humans }}</p>
                         </div>
                     </div>
                 </div>
@@ -146,8 +146,6 @@
                                     </div>
                                 </div>
                             </div>
-                           <!-- <p>Nosso menu inclui uma variedade de pratos deliciosos, desde entradas até sobremesas. Venha nos visitar para experimentar!</p> -->
-                            <!-- <a href="#menu" class="btn btn-primary col-2">Ver Menu Completo</a>  -->
                         </div>
                     </div>
                 </div>
