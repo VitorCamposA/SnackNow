@@ -55,10 +55,10 @@
                 @foreach($suppliers as $supplier)
                     <div class="col-md-6 mb-4">
                         <a href="{{route('show', encrypt($supplier['id']))}}" class="text-decoration-none text-dark">
-                            <div class="card h-100" style="background-color: #343A40">
+                            <div class="card h-100 px-3" style="background-color: #343A40">
                                 <div class="row no-gutters">
-                                    <div class="col-md-4">
-                                        <img src="{{ $supplier->profile_image ? asset('storage/' . $supplier->profile_image) : "https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg"}}" id="doido" class="card-img" alt="Imagem">
+                                    <div class="col-md-4 d-flex align-items-center justify-content-center">
+                                        <img src="{{ $supplier->profile_image ? asset('storage/' . $supplier->profile_image) : "https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg"}}" id="doido" class="card-img" alt="Imagem" style="min-width: 100px; max-width: 300px; min-height: 100px; max-height: 300px;">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body text-white">

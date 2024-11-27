@@ -1,7 +1,9 @@
 @extends('layouts.primary')
-
+@section('title')
+    Criar Cupom
+@endsection
 @section('content')
-    <div class="container text-white">
+    <div class="container text-white my-5" style="min-height: 79vh">
         <h1>Criar Cupom</h1>
         <form method="POST" action="{{ route('coupons.store') }}">
             @csrf
