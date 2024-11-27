@@ -12,7 +12,6 @@ class CouponController extends Controller
 {
     public function index()
     {
-        // Display all coupons for the authenticated supplier
         $coupons = Coupon::where('supplier_id', Auth::id())->get();
         return view('coupons.index', compact('coupons'));
     }
@@ -63,6 +62,7 @@ class CouponController extends Controller
             'valid_from' => $request->valid_from,
             'valid_until' => $request->valid_until,
             'minimum_visits' => $request->minimum_visits,
+            'supplier_id' => Auth::id(),
         ]);
 
         return redirect()->route('coupons.index')->with('success', 'Coupon created successfully.');

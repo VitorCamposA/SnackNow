@@ -43,7 +43,7 @@
                     <td>{{ $coupon->used }}</td>
                     <td>
                         <!-- Edit Button -->
-                        <a href="{{ route('coupons.edit', $coupon->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ route('coupons.edit', $coupon->id) }}" class="btn btn-warning btn-sm">Editar</a>
 
                         <!-- Delete Button -->
                         <form action="{{ route('coupons.destroy', $coupon->id) }}" method="POST" style="display:inline-block;">
@@ -70,7 +70,7 @@
                     @method('POST')
 
                     <div class="form-group">
-                        <label for="email">Client Email:</label>
+                        <label for="email">Email do Cliente:</label>
                         <input type="email" name="email" required class="form-control bg-dark text-light">
                     </div>
 
@@ -84,9 +84,9 @@
                     @method('POST')
 
                     <div class="form-group">
-                        <label for="email">Client Email:</label>
+                        <label for="email">Email do Cliente:</label>
                         <input type="email" name="email" required class="form-control bg-dark text-light">
-                        <label for="code">Coupon Code:</label>
+                        <label for="code">Codigo do Cupom:</label>
                         <input type="text" name="code" required class="form-control bg-dark text-light">
                     </div>
 

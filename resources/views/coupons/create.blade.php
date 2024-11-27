@@ -12,7 +12,7 @@
                 <input type="text" name="code" class="form-control bg-dark text-light" required>
             </div>
             <div class="form-group">
-                <label for="discount_amount">Valor Descontado</label>
+                <label for="discount_amount">Valor máximo de Desconto</label>
                 <input type="number" name="discount_amount" class="form-control bg-dark text-light">
             </div>
             <div class="form-group">

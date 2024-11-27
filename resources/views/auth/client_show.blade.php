@@ -39,12 +39,12 @@
                             </form>
                         @endif
                         <div class="card-body text-white">
-                            <h2>{{ $supplier['name'] }}</h2>
+                            <h2>{{ $supplier->name }}</h2>
                             <br>
-                            <p><strong>Endereço: </strong>{{ $supplier['address'] }}</p>
-                            <p><strong>Telefone: </strong> {{ $supplier['phone'] }}</p>
-                            <p><strong>Email:</strong>  {{ $supplier['email'] }}</p>
-                            <p><strong>Especialidade:</strong>  {{ $supplier['specialty'] }}</p>
+                            <p><strong>Endereço: </strong>{{ $supplier->address }}</p>
+                            <p><strong>Telefone: </strong> {{ $supplier->phone }}</p>
+                            <p><strong>Email:</strong>  {{ $supplier->email }}</p>
+                            <p><strong>Especialidade:</strong>  {{ $supplier->specialty_for_humans }}</p>
                         </div>
                     </div>
                 </div>
