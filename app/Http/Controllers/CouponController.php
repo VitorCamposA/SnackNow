@@ -84,6 +84,11 @@ class CouponController extends Controller
     {
         $this->authorize('update', $coupon);
 
+        $request->merge([
+            'discount_amount' => $request->discount_amount ?? 0,
+            'discount_percentage' => $request->discount_percentage ?? 0,
+        ]);
+
         $request->validate([
             'discount_amount' => 'required_without:discount_percentage|numeric',
             'discount_percentage' => 'required_without:discount_amount|numeric',

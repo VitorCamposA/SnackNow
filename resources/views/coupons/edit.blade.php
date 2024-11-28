@@ -1,5 +1,8 @@
 @extends('layouts.primary')
 
+@section('title')
+    Editar Cupom
+
 @section('content')
     <div class="text-white container my-5" style="min-height: 73vh">
         <h1>Editar Cupom</h1>
