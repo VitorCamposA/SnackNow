@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <div class="container" style="min-height: 84vh;">
-        <h1 class="mb-4">Meus cupons</h1>
+        <h1 class="mb-4 text-white">Meus cupons</h1>
 
         @if(session('success'))
             <div class="alert alert-success">

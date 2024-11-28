@@ -111,7 +111,7 @@
                                                 <option value="Desserts" {{ old('specialty') == 'Desserts' ? 'selected' : '' }}>Sobremesa</option>
                                                 <option value="Pasta" {{ old('specialty') == 'Desserts' ? 'selected' : '' }}>Massa</option>
                                                 <option value="Seafood" {{ old('specialty') == 'Seafood' ? 'selected' : '' }}>Comida Marítima</option>
-                                                <option value="Barbecue" {{ old('specialty') == 'Barbecue' ? 'selected' : '' }}>Barbecue</option>
+                                                <option value="Barbecue" {{ old('specialty') == 'Barbecue' ? 'selected' : '' }}>Churrasco</option>
                                                 <option value="Brazilian" {{ old('specialty') == 'Brazilian' ? 'selected' : '' }}>Comida Brasileira</option>
                                                 <option value="Korean" {{ old('specialty') == 'Korean' ? 'selected' : '' }}>Comida Coreana</option>
                                                 <option value="Mexican" {{ old('specialty') == 'Mexican' ? 'selected' : '' }}>Comida Mexicana</option>

@@ -108,7 +108,7 @@
                                                 <option value="Desserts" {{ old('specialty', $user->specialty) == 'Desserts' ? 'selected' : '' }}>Sobremesa</option>
                                                 <option value="Pasta" {{ old('specialty', $user->specialty) == 'Pasta' ? 'selected' : '' }}>Massa</option>
                                                 <option value="Seafood" {{ old('specialty', $user->specialty) == 'Seafood' ? 'selected' : '' }}>Comida Marítima</option>
-                                                <option value="Barbecue" {{ old('specialty', $user->specialty) == 'Barbecue' ? 'selected' : '' }}>Barbecue</option>
+                                                <option value="Barbecue" {{ old('specialty', $user->specialty) == 'Barbecue' ? 'selected' : '' }}>Churrasco</option>
                                                 <option value="Brazilian" {{ old('specialty', $user->specialty) == 'Brazilian' ? 'selected' : '' }}>Comida Brasileira</option>
                                                 <option value="Korean" {{ old('specialty', $user->specialty) == 'Korean' ? 'selected' : '' }}>Comida Coreana</option>
                                                 <option value="Mexican" {{ old('specialty', $user->specialty) == 'Mexican' ? 'selected' : '' }}>Comida Mexicana</option>

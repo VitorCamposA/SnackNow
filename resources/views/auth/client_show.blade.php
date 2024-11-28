@@ -167,24 +167,46 @@
                             @endif
                             @if($supplier->categories->isNotEmpty())
                                 @foreach($supplier->categories as $category)
-                                    <div class="card mb-3">
-                                        <div class="card-header">
-                                            <h3>{{ $category->name }}</h3>
+                                    <div class="card mb-4 shadow-sm border-0">
+                                        <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #495057">
+                                            <h3 class="mb-0">
+                                                @php
+                                                    $categoryEmoji = match($category->name) {
+                                                        'Bebida', 'Bebidas' => '🍷',
+                                                        'Sobremesa', 'Sobremesas' => '🍰',
+                                                        'Lanche', 'Lanches' => '🍔',
+                                                        default => '🍴'
+                                                    };
+                                                @endphp
+                                                {{ $categoryEmoji }} {{ $category->name }}
+                                            </h3>
                                         </div>
-                                        <div class="card-body">
+                                        <div class="card-body bg-dark">
                                             @if($category->items->isNotEmpty())
-                                                <ul class="list-group">
+                                                <ul class="list-group list-group-flush ">
                                                     @foreach($category->items as $item)
-                                                        <li class="list-group-item">
-                                                            <strong>{{ $item->name }}</strong>
-                                                            <span class="float-end text-muted">
-                                            R$ {{ number_format($item->price, 2, ',', '.') }}
-                                        </span>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                                                            <div>
+                                                                @php
+                                                                    $itemEmoji = match($category->name) {
+                                                                        'Bebida', 'Bebidas' => '🥤',
+                                                                        'Sobremesa', 'Sobremesas' => '🍨',
+                                                                        'Lanche', 'Lanches' => '🍟',
+                                                                        default => '🍽️'
+                                                                    };
+                                                                @endphp
+                                                                <strong>{{ $itemEmoji }} {{ $item->name }}</strong>
+                                                            </div>
+                                                            <span class="badge bg-success text-white p-2">
+                                                                R$ {{ number_format($item->price, 2, ',', '.') }}
+                                                            </span>
                                                         </li>
                                                     @endforeach
                                                 </ul>
                                             @else
-                                                <p>Nenhum item disponível nesta categoria.</p>
+                                                <div class="alert alert-warning text-center" role="alert">
+                                                    <i class="fas fa-exclamation-circle me-2"></i> Nenhum item disponível nesta categoria.
+                                                </div>
                                             @endif
                                         </div>
                                     </div>

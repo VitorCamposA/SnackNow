@@ -3,9 +3,9 @@
     Criar Cupom
 @endsection
 @section('content')
-    <div class="container text-white my-5" style="min-height: 79vh">
+    <div class="container text-white my-5" style="min-height: 73vh">
         <h1>Criar Cupom</h1>
-        <form method="POST" action="{{ route('coupons.store') }}">
+        <form method="POST" action="{{ route('coupons.store') }}" class="d-grid gap-3">
             @csrf
             <div class="form-group">
                 <label for="code">Código do cupom</label>
@@ -21,24 +21,23 @@
             </div>
             <div class="form-group">
                 <label for="valid_from">Válido a Partir De</label>
-                <input type="date" name="valid_from" class="form-control bg-dark text-light" required>
+                <input type="date" name="valid_from" class="form-control bg-dark text-light" required max="2030-12-31">
             </div>
             <div class="form-group">
                 <label for="valid_until">Válido até</label>
-                <input type="date" name="valid_until" class="form-control bg-dark text-light" required>
+                <input type="date" name="valid_until" class="form-control bg-dark text-light" max="2030-12-31" required>
             </div>
             <div class="form-group">
                 <label for="minimum_visits">Mínimo de Visitas</label>
-                <div class="input-group">
+                <div class="input-group d-flex align-items-center gap-3">
                     <input type="number" name="minimum_visits" id="minimum_visits" class="form-control bg-dark text-light">
-                    <div class="input-group-append">
-                        <div class="input-group-text bg-dark text-light">
-                            <input type="checkbox" id="no_minimum_visits">
-                            <label for="no_minimum_visits" class="mb-0 ml-2">Sem mínimo de visitas</label>
-                        </div>
+                    <div class="input-group-text bg-dark text-light">
+                        <input type="checkbox" id="no_minimum_visits">
+                        <label for="no_minimum_visits" class="mb-0 ml-2">Sem mínimo de visitas</label>
                     </div>
                 </div>
             </div>
+
             <button type="submit" class="btn btn-primary my-3">Criar Cupom</button>
         </form>
     </div>

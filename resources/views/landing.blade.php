@@ -5,6 +5,28 @@
 @endsection
 
 @section('content')
+
+<style>
+    .landing-page #section-planos .content-cards a{
+        text-align: center;
+    border: none;
+    outline: none;
+    color: #212529;
+    margin-top: 30px;
+    padding: 10px;
+
+    font-weight: 600;
+    background-color: #ffb703;
+    border-radius: 10px;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.landing-page #section-planos .content-cards a:hover{
+    background-color: #ffc93f;
+}
+</style>
     <div class="landing-page">
         <section id="section-home">
             <div class="content-title">
@@ -44,22 +66,22 @@
         <section id="section-planos">
             <div class="content-cards">
                 <div>
-                    <h2>Plano Básico</h2>
-                    <h3>R$10/mês</h3>
-                    <p>Ter acesso aos cupons</p>
-                    <button>Garantir Plano</button>
+                    <h2>Plano Free</h2>
+                    <h3>R$0,00/mês</h3>
+                    <p>Ter acesso à buscas de novos restaurantes</p>
+                    <a class="btn btn-primary" href="{{route('register-client')}}">Faça sua conta</a>
                 </div>
                 <div>
                     <h2>Plano Básico Restaurante</h2>
                     <h3>R$20/mês</h3>
                     <p>Acesso ao sistema</p>
-                    <button>Garantir Plano</button>
+                    <button disabled>Garantir Plano</button>
                 </div>
                 <div>
                     <h2>Plano Premium</h2>
                     <h3>R$30/mês</h3>
                     <p>Acesso aos cupons de até 50% de desconto</p>
-                    <button>Garantir Plano</button>
+                    <button disabled>Garantir Plano</button>
                 </div>
             </div>
         </section>

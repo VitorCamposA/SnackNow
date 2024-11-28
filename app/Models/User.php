@@ -140,7 +140,7 @@ class User extends Authenticatable implements MustVerifyEmail
             "Desserts" => "Sobremesa",
             "Pasta" => "Massa",
             "Seafood" => "Comida Marítima",
-            "Barbecue" => "Barbecue",
+            "Barbecue" => "Churrasco",
             "Brazilian" => "Comida Brasileira",
             "Korean" => "Comida Coreana",
             "Mexican" => "Comida Mexicana",

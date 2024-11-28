@@ -3,7 +3,7 @@
     Cupons
 @endsection
 @section('content')
-    <div class="container">
+    <div class="container text-white my-3" style='min-height: 79vh;'>
         <h1 class="mb-4">Meus Cupons Criados</h1>
 
         @if(session('success'))
@@ -36,7 +36,7 @@
             @forelse($coupons as $coupon)
                 <tr>
                     <td>{{ $coupon->code }}</td>
-                    <td>{{ $coupon->discount_amount ? '$' . $coupon->discount_amount : '-' }}</td>
+                    <td>{{ $coupon->discount_amount ? 'R$' . $coupon->discount_amount : '-' }}</td>
                     <td>{{ $coupon->discount_percentage ? $coupon->discount_percentage . '%' : '-' }}</td>
                     <td>{{ \Carbon\Carbon::parse($coupon->valid_from)->format('d/m/y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($coupon->valid_until)->format('d/m/y') }}</td>
@@ -70,11 +70,11 @@
                     @method('POST')
 
                     <div class="form-group">
-                        <label for="email">Email do Cliente:</label>
+                        <label for="email" style="font-size:1.5em;" class="my-2">Email do Cliente:</label>
                         <input type="email" name="email" required class="form-control bg-dark text-light">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Registrar</button>
+                    <button type="submit" class="btn btn-primary my-3">Registrar</button>
                 </form>
             </div>
             <div class="text-white container">
@@ -84,13 +84,13 @@
                     @method('POST')
 
                     <div class="form-group">
-                        <label for="email">Email do Cliente:</label>
+                        <label for="email" style="font-size:1.5em;" class="my-2">Email do Cliente:</label>
                         <input type="email" name="email" required class="form-control bg-dark text-light">
-                        <label for="code">Codigo do Cupom:</label>
+                        <label for="code" style="font-size:1.5em;" class="my-2">Codigo do Cupom:</label>
                         <input type="text" name="code" required class="form-control bg-dark text-light">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Registrar</button>
+                    <button type="submit" class="btn btn-primary my-3">Registrar Uso</button>
                 </form>
             </div>
         @endif

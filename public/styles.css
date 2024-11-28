@@ -245,3 +245,6 @@
 .landing-page #section-contact .content-form button:hover {
     background-color: #343a40;
 }
+input[type="date"]::-webkit-calendar-picker-indicator{
+    filter: invert(1);
+}
