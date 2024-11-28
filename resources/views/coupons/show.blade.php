@@ -22,6 +22,7 @@
             <tr>
                 <th>Código do Cupom</th>
                 <th>Restaurante</th>
+                <th>Valor de Desconto</th>
                 <th>Porcentagem do Desconto</th>
                 <th>Válido a partir</th>
                 <th>Válido até</th>
@@ -33,6 +34,7 @@
                 <tr>
                     <td>{{ $coupon['code'] }}</td>
                     <td>{{ $coupon['name'] }}</td>
+                    <td>{{ $coupon['discount_amount'] }}</td>
                     <td>{{ $coupon['percentage'] }}</td>
                     <td>{{ \Carbon\Carbon::parse($coupon['from'])->format('d/m/y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($coupon['until'])->format('d/m/y') }}</td>

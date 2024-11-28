@@ -32,6 +32,7 @@ class CouponController extends Controller
                 && $couponSupplier->valid_from <= now()
                 && $couponSupplier->valid_until >= now()){
                 $couponsArray[$key]['code'] = $couponSupplier->code;
+                $couponsArray[$key]['discount_amount'] = $couponSupplier->discount_amount;
                 $couponsArray[$key]['name'] = $supplier->name;
                 $couponsArray[$key]['percentage'] = $couponSupplier->discount_percentage . '%';
                 $couponsArray[$key]['from'] = $couponSupplier->valid_from;
