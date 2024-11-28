@@ -12,6 +12,8 @@ use App\Models\User;
  */
 class ClientUser extends User
 {
+    protected $table = 'users';
+
     protected $fillable = [
         'name',
         'email',
