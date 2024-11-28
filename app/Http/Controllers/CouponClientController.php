@@ -13,8 +13,7 @@ class CouponClientController extends Controller
     public function register($supplierId, Request $request)
     {
 
-
-        $cupomCliente = DB::table('coupons')->where('supplier_id', decrypt($supplierId))->where('used', false)->get();
+        $cupomCliente = DB::table('coupons')->where('supplier_id', decrypt($supplierId))->get();
 
         $user = User::where('email', $request->email)->where('type_of', 2)->first();
 
@@ -80,7 +79,6 @@ class CouponClientController extends Controller
             }
             $cupomCliente->save();
         } else {
-            // Relacionamento inicial entre cliente e cupom
             DB::table('clients_coupons')->insert([
                 'coupon_id' => $couponId,
                 'client_id' => $clientId,

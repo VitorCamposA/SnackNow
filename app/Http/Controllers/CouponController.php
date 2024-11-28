@@ -25,14 +25,18 @@ class CouponController extends Controller
         foreach ($coupons as $key =>$coupon) {
             $couponSupplier = Coupon::where('id', $coupon->coupon_id)->first();
             $supplier = User::where('id', $couponSupplier->supplier_id)->first();
+
+            $missingVisits = $couponSupplier->minimum_visits - $coupon->visits;
+
             if (!$couponSupplier->was_used
-                && $couponSupplier->has_permission
                 && $couponSupplier->valid_from <= now()
                 && $couponSupplier->valid_until >= now()){
                 $couponsArray[$key]['code'] = $couponSupplier->code;
                 $couponsArray[$key]['name'] = $supplier->name;
                 $couponsArray[$key]['percentage'] = $couponSupplier->discount_percentage . '%';
+                $couponsArray[$key]['from'] = $couponSupplier->valid_from;
                 $couponsArray[$key]['until'] = $couponSupplier->valid_until;
+                $couponsArray[$key]['has_permission'] = $couponSupplier->$missingVisits;
             }
         }
 
