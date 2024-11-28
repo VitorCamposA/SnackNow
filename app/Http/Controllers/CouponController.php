@@ -51,12 +51,18 @@ class CouponController extends Controller
 
     public function store(Request $request)
     {
+
+        $request->merge([
+            'discount_amount' => $request->discount_amount ?? 0,
+            'discount_percentage' => $request->discount_percentage ?? 0,
+        ]);
+
         $request->validate([
             'code' => 'required|string|max:255',
-            'discount_amount' => 'nullable|numeric',
-            'discount_percentage' => 'nullable|numeric',
+            'discount_amount' => 'required_without:discount_percentage|numeric',
+            'discount_percentage' => 'required_without:discount_amount|numeric',
             'valid_from' => 'required|date',
-            'valid_until' => 'required|date',
+            'valid_until' => 'required|date|after_or_equal:valid_from',
             'minimum_visits' => 'nullable|integer|min:0',
         ]);
 
@@ -94,7 +100,7 @@ class CouponController extends Controller
             'discount_percentage' => 'required_without:discount_amount|numeric',
             'valid_from' => 'required|date',
             'valid_until' => 'required|date|after_or_equal:valid_from',
-            'usage_limit' => 'nullable|integer',
+            'minimum_visits' => 'nullable|integer|min:0',
         ]);
 
         $coupon->update($request->all());
