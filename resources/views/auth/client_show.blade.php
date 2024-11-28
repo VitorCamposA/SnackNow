@@ -214,33 +214,25 @@
                             @else
                                 <p>Nenhuma categoria encontrada para este fornecedor.</p>
                             @endif
-
-
-
-
-
-
-                            <!-- <p>Nosso menu inclui uma variedade de pratos deliciosos, desde entradas até sobremesas. Venha nos visitar para experimentar!</p> -->
-                            <!-- <a href="#menu" class="btn btn-primary col-2">Ver Menu Completo</a>  -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container my-3" >
             <div class="row">
         @if(\App\Models\User::isClient())
             <h2 class="text-white">Comentários:</h2>
             <form action="{{ route('comments.store', $supplier['id']) }}" method="POST">
                 @csrf
-                <div class="card mb-3">
-                <div class="card-body bg-secondary">
-                    <div class="form-group">
-                        <h3 for="author">Usuario: {{\App\Models\User::getCurrentUserData('name')}}</h3>
+                <div class="card mb-3 rounded border-0" style="background-color: #343A40; border-radius: inherit;">
+                <div class="card-body text-white">
+                <div class="form-group">
+                        <h4 for="author">Usuario: {{\App\Models\User::getCurrentUserData('name')}}</h4>
                         <input type="hidden" class="form-control" id="author" name="author" value="{{\App\Models\User::getCurrentUserData('name')}}">
                     </div>
                         <div class="form-group">
-                            <label for="rating">Nota:</label>
+                            <label for="rating" style="font-size: 1.3em;">Nota:</label>
                             <div class="star-rating">
                                 <span class="fa fa-star" data-rating="1"></span>
                                 <span class="fa fa-star" data-rating="2"></span>
@@ -251,7 +243,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="content">Comentario:</label>
+                            <label for="content" class="my-3" style="font-size: 1.3em;">Comentario:</label>
                             <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
                         </div>
                 </div>

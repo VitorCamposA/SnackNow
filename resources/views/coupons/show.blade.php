@@ -3,8 +3,8 @@
     Meus Cupons
 @endsection
 @section('content')
-    <div class="container" style="min-height: 84vh;">
-        <h1 class="mb-4 text-white">Meus cupons</h1>
+    <div class="container" style="min-height: 79vh;">
+        <h1 class="my-4 text-white">Meus cupons</h1>
 
         @if(session('success'))
             <div class="alert alert-success">
